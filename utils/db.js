@@ -1,0 +1,102 @@
+const { Sequelize } = require("sequelize");
+const sequelize = require("./sequelize");
+const db = {};
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+// create the modal instance
+db.timeslot = require("../models/timeslot")(sequelize, Sequelize);
+db.users = require("../models/users")(sequelize, Sequelize);
+db.department = require("../models/department")(sequelize, Sequelize);
+db.teacher = require("../models/teacher")(sequelize, Sequelize);
+db.student = require("../models/student")(sequelize, Sequelize);
+db.course = require("../models/course")(sequelize, Sequelize);
+db.message = require("../models/message")(sequelize, Sequelize);
+db.section = require("../models/section")(sequelize, Sequelize);
+db.result = require("../models/result")(sequelize, Sequelize);
+db.semester = require("../models/semester")(sequelize, Sequelize);
+db.complain = require("../models/complain")(sequelize, Sequelize);
+db.courseTaken = require("../models/courseTaken")(sequelize, Sequelize);
+db.prerequisite = require("../models/prerequisite")(sequelize, Sequelize);
+db.notice = require("../models/notice")(sequelize, Sequelize);
+db.guardian = require("../models/guardian")(sequelize, Sequelize);
+db.attendence = require("../models/attendence")(sequelize, Sequelize);
+
+//relations
+db.teacher.belongsTo(db.users);
+db.teacher.belongsTo(db.department);
+
+db.student.belongsTo(db.users);
+db.student.belongsTo(db.department);
+db.student.belongsTo(db.guardian);
+db.student.belongsTo(db.semester); //joined_at
+
+db.course.belongsTo(db.department);
+
+db.prerequisite.belongsTo(db.course); //for_course
+
+db.section.belongsTo(db.timeslot);
+db.section.belongsTo(db.course);
+db.section.belongsTo(db.teacher);
+
+db.courseTaken.belongsTo(db.section);
+db.courseTaken.belongsTo(db.student);
+
+db.result.belongsTo(db.course);
+db.result.belongsTo(db.student);
+
+db.message.belongsTo(db.users);
+db.message.belongsTo(db.users);
+db.message.belongsTo(db.section);
+
+db.notice.belongsTo(db.users);
+db.notice.belongsTo(db.users);
+db.notice.belongsTo(db.section);
+
+db.complain.belongsTo(db.student); //for
+db.complain.belongsTo(db.teacher); //by
+
+db.attendence.belongsTo(bd.student);
+db.attendence.belongsTo(bd.course);
+
+//reverse relation
+db.users.hasOne(db.teacher);
+db.department.hasMany(db.teacher);
+
+db.users.hasOne(db.student);
+db.department.hasMany(db.student);
+db.guardian.hasMany(db.student);
+db.semester.hasMany(db.student);
+
+db.department.hasMany(db.course);
+
+db.course.hasOne(db.prerequisite);
+
+db.timeslot.hasMany(db.section);
+db.course.hasMany(db.section);
+db.teacher.hasMany(db.section);
+
+db.section.hasOne(db.courseTaken);
+db.student.hasOne(db.courseTaken);
+
+db.course.hasMany(db.result);
+db.student.hasMany(db.result);
+
+db.users.hasMany(db.message);
+db.section.hasMany(db.message);
+
+db.users.hasMany(db.notice);
+db.section.hasMany(db.notice);
+
+db.student.hasMany(db.complain);
+db.teacher.hasMany(db.complain);
+
+db.student.hasMany(bd.attendence);
+db.course.hasMany(bd.attendence);
+
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and re-sync db.");
+});
+
+module.exports = db;
