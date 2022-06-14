@@ -11,7 +11,7 @@ userController.tryLogin = async (req, res) => {
   let userPassword = req.body.password;
   if (validator.isEmail(userEmail.trim())) {
     userEmail = userEmail.trim().toLowerCase();
-    await db.users
+    await db.user
       .findOne({
         where: { email: userEmail }
       })
@@ -30,7 +30,7 @@ userController.tryLogin = async (req, res) => {
               expiresIn: "2h"
             }
           );
-          res.status(200).json({ token: token });
+          res.status(200).json({ token: token, role: data.role });
         }
       })
       .catch((error) => {
@@ -47,7 +47,7 @@ userController.createUser = async (req, res) => {
     let userEmail = req.body.email;
     let userPassword = req.body.password;
     let userRole = req.body.role;
-    await db.users
+    await db.user
       .findOne({
         where: { email: userEmail.trim().toLowerCase() }
       })
@@ -77,7 +77,7 @@ userController.createUser = async (req, res) => {
         userEmail.trim().toLowerCase(),
         bcrypt.genSaltSync(Number(config.SALT_ROUND))
       );
-      await db.users
+      await db.user
         .create({
           email: userEmail.trim().toLowerCase(),
           password: userPassword,

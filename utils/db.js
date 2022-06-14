@@ -6,7 +6,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 // create the modal instance
-db.users = require("../models/users")(sequelize, Sequelize);
+db.user = require("../models/user")(sequelize, Sequelize);
 db.timeslot = require("../models/timeslot")(sequelize, Sequelize);
 db.department = require("../models/department")(sequelize, Sequelize);
 db.teacher = require("../models/teacher")(sequelize, Sequelize);
@@ -24,13 +24,15 @@ db.guardian = require("../models/guardian")(sequelize, Sequelize);
 db.attendence = require("../models/attendence")(sequelize, Sequelize);
 
 //relations
-db.teacher.belongsTo(db.users);
+db.teacher.belongsTo(db.user);
 db.teacher.belongsTo(db.department);
 
-db.student.belongsTo(db.users);
+db.student.belongsTo(db.user);
 db.student.belongsTo(db.department);
 db.student.belongsTo(db.guardian);
 db.student.belongsTo(db.semester); //joined_at
+
+db.guardian.belongsTo(db.user);
 
 db.course.belongsTo(db.department);
 
@@ -46,12 +48,12 @@ db.courseTaken.belongsTo(db.student);
 db.result.belongsTo(db.course);
 db.result.belongsTo(db.student);
 
-db.message.belongsTo(db.users);
-db.message.belongsTo(db.users);
+db.message.belongsTo(db.user);
+db.message.belongsTo(db.user);
 db.message.belongsTo(db.section);
 
-db.notice.belongsTo(db.users);
-db.notice.belongsTo(db.users);
+db.notice.belongsTo(db.user);
+db.notice.belongsTo(db.user);
 db.notice.belongsTo(db.section);
 
 db.complain.belongsTo(db.student); //for
@@ -61,13 +63,15 @@ db.attendence.belongsTo(db.student);
 db.attendence.belongsTo(db.course);
 
 //reverse relation
-db.users.hasOne(db.teacher);
+db.user.hasOne(db.teacher);
 db.department.hasMany(db.teacher);
 
-db.users.hasOne(db.student);
+db.user.hasOne(db.student);
 db.department.hasMany(db.student);
 db.guardian.hasMany(db.student);
 db.semester.hasMany(db.student);
+
+db.user.hasOne(db.guardian);
 
 db.department.hasMany(db.course);
 
@@ -83,10 +87,10 @@ db.student.hasOne(db.courseTaken);
 db.course.hasMany(db.result);
 db.student.hasMany(db.result);
 
-db.users.hasMany(db.message);
+db.user.hasMany(db.message);
 db.section.hasMany(db.message);
 
-db.users.hasMany(db.notice);
+db.user.hasMany(db.notice);
 db.section.hasMany(db.notice);
 
 db.student.hasMany(db.complain);
@@ -95,7 +99,7 @@ db.teacher.hasMany(db.complain);
 db.student.hasMany(db.attendence);
 db.course.hasMany(db.attendence);
 
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: true, logging: false }).then(() => {
   console.log("Drop and re-sync db.");
 });
 
