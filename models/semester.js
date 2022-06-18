@@ -4,15 +4,13 @@ const Semester = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     name: {
       type: DataTypes.ENUM("FALL", "SPRING", "SUMMER"),
-      allowNull: false,
+      allowNull: false
     },
-    year: { type: DataTypes.STRING, allowNull: false },
-    
-    
+    year: { type: DataTypes.STRING, allowNull: false }
   });
 };
 

@@ -24,7 +24,7 @@ userController.tryLogin = async (req, res) => {
           if (bcrypt.compare(userPassword.trim(), data.password))
             console.log(data);
           const token = jwt.sign(
-            { email: data.email, role: data.role },
+            { id: data.user_id, email: data.email, role: data.role },
             process.env.TOKEN_KEY,
             {
               expiresIn: "2h"
