@@ -13,24 +13,34 @@ userController.tryLogin = async (req, res) => {
     userEmail = userEmail.trim().toLowerCase();
     await db.users
       .findOne({
-        where: { email: userEmail }
+        where: { email: userEmail },
       })
       .then((data) => {
         if (data === null) {
           res.status(404).json({
-            status: "Not found"
+            status: "Not found",
           });
         } else {
-          if (bcrypt.compare(userPassword.trim(), data.password))
-            console.log(data);
-          const token = jwt.sign(
-            { email: data.email, role: data.role },
-            process.env.TOKEN_KEY,
-            {
-              expiresIn: "2h"
+          bcrypt.compare(
+            userPassword.trim(),
+            data.password,
+            function (err, result) {
+              if (result == true) {
+                const token = jwt.sign(
+                  { email: data.email, role: data.role },
+                  process.env.TOKEN_KEY,
+                  {
+                    expiresIn: config.TOKEN_LIFE,
+                  }
+                );
+                res.status(200).json({ token: token });
+              } else {
+                res.status(403).json({
+                  status: "Emal/password mismatch",
+                });
+              }
             }
           );
-          res.status(200).json({ token: token });
         }
       })
       .catch((error) => {
@@ -49,12 +59,12 @@ userController.createUser = async (req, res) => {
     let userRole = req.body.role;
     await db.users
       .findOne({
-        where: { email: userEmail.trim().toLowerCase() }
+        where: { email: userEmail.trim().toLowerCase() },
       })
       .then((data) => {
         if (data !== null) {
           res.status(409).json({
-            status: "User already exist with that email address"
+            status: "User already exist with that email address",
           });
           return;
         }
@@ -82,7 +92,7 @@ userController.createUser = async (req, res) => {
           email: userEmail.trim().toLowerCase(),
           password: userPassword,
           role: userRole.trim().toUpperCase(),
-          secret_code: secretkey
+          secret_code: secretkey,
         })
         .then((data) => {
           res.status(200).json(data);
