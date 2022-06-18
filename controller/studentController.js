@@ -13,7 +13,7 @@ studentController.createStudent = async (req, res) => {
     req.body.studentEmail =
     req.body.studentphoneNumber =
       req.body.phone_number;
-  await db.users
+  await db.user
     .findOne({
       where: { email: userEmail.trim().toLowerCase() }
     })
@@ -43,7 +43,7 @@ studentController.createStudent = async (req, res) => {
       userEmail.trim().toLowerCase(),
       bcrypt.genSaltSync(Number(config.SALT_ROUND))
     );
-    await db.users
+    await db.user
       .create({
         email: userEmail.trim().toLowerCase(),
         password: userPassword,

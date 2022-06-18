@@ -4,13 +4,10 @@ const Guardian = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     name: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, allowNull: true },
-    phone_number: { type: DataTypes.INTEGER, allowNull: true },
-    
-    
+    phone_number: { type: DataTypes.INTEGER, allowNull: true }
   });
 };
 module.exports = Guardian;
