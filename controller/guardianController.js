@@ -34,10 +34,21 @@ guardianController.getWardInfo = async (req, res) => {
                     ]
                   },
                   {
-                    model: db.result
+                    model: db.result,
+                    include:[
+                        {
+                          model: db.course
+                        }
+                    ]
                   },
                   {
                     model: db.complain
+                  },
+                  {
+                    model: db.department
+                  },
+                  {
+                    model: db.semester
                   }
                 ]
               }

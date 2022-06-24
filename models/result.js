@@ -4,11 +4,9 @@ const Result = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
-    grade: { type: DataTypes.STRING, allowNull: false },
-    
-    
+    grade: { type: DataTypes.FLOAT, allowNull: false }
   });
 };
 

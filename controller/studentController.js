@@ -64,7 +64,7 @@ studentController.getStudents = async (req, res) => {
   await db.student
     .findAll()
     .then((data) => {
-      if (data !== null) {
+      if (data === null) {
         res.status(404).json({
           status: "Not Found"
         });

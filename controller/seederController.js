@@ -12,7 +12,10 @@ seederController.doIt = async (req, res) => {
         //   name: "Bachelor of Computer Science and Engineering",
         //   short_code: "BCSE"
         // },
-        { name: "Bachelor of Business Administration", short_code: "BBA" },
+        {
+          name: "Bachelor of Business Administration",
+          short_code: "BBA"
+        },
         {
           name: "Bachelor of Science in Mechanical Engineering",
           short_code: "BSME"
@@ -80,6 +83,79 @@ seederController.doIt = async (req, res) => {
       return console.error(error);
     });
 
+  await db.course
+    .bulkCreate([
+      {
+        name: "BBA101",
+        credit: 3,
+        serial: 1,
+        departmentDepartmentId: 1,
+        is_offered: true
+      },
+      {
+        name: "BBA102",
+        credit: 3,
+        serial: 2,
+        departmentDepartmentId: 1,
+        is_offered: true
+      },
+      {
+        name: "BBA103",
+        credit: 3,
+        serial: 3,
+        departmentDepartmentId: 1,
+        is_offered: true
+      },
+      {
+        name: "BSME101",
+        credit: 3,
+        serial: 1,
+        departmentDepartmentId: 2,
+        is_offered: true
+      },
+      {
+        name: "BSME102",
+        credit: 4,
+        serial: 2,
+        departmentDepartmentId: 2,
+        is_offered: true
+      },
+      {
+        name: "BSME103",
+        credit: 4,
+        serial: 3,
+        departmentDepartmentId: 2,
+        is_offered: true
+      },
+      {
+        name: "BEEE101",
+        credit: 4,
+        serial: 1,
+        departmentDepartmentId: 3,
+        is_offered: true
+      },
+      {
+        name: "BEEE102",
+        credit: 4,
+        serial: 2,
+        departmentDepartmentId: 3,
+        is_offered: true
+      },
+      {
+        name: "BEEE103",
+        credit: 3,
+        serial: 3,
+        departmentDepartmentId: 3,
+        is_offered: true
+      }
+    ])
+    .then(() => {
+      console.log(`Data Added to Courses`);
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+
   await db.student
     .bulkCreate(
       [
@@ -94,10 +170,7 @@ seederController.doIt = async (req, res) => {
             secret_code: "srytadfjafsdk6446464a65a47dsa",
             is_active: true
           },
-          department: {
-            name: "Bachelor of Computer Science and Engineering",
-            short_code: "BCSE"
-          },
+          departmentDepartmentId:3,
           guardian: {
             name: "Abdul Karim",
             phone_number: "8801911409172",
@@ -112,7 +185,8 @@ seederController.doIt = async (req, res) => {
           semester: {
             name: "SPRING",
             year: "2021"
-          }
+          },
+          
         }
       ],
       {
@@ -124,12 +198,39 @@ seederController.doIt = async (req, res) => {
             model: db.guardian,
             include: [db.user]
           },
-          db.semester
+          db.semester,
+          db.result
         ]
       }
     )
     .then(() => {
       console.log(`Student Added to Semester`);
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+
+    db.result.bulkCreate(
+      [
+        {
+          grade: 3.75,
+          studentStudentId:1,
+          courseCourseId: 1
+        },
+        {
+          grade: 3.5,
+          studentStudentId:1,
+          courseCourseId: 2
+        },
+        {
+          grade: 2.75,
+          studentStudentId:1,
+          courseCourseId: 3
+        }
+      ]
+    )
+    .then(() => {
+      console.log(`Student Added to Result`);
     })
     .catch((error) => {
       return console.error(error);

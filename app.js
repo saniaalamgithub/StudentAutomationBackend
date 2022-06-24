@@ -25,5 +25,7 @@ app.post("/department/create", auth, departmentController.getDepartments);
 
 app.post("/ward", auth, guardianController.getWardInfo);
 app.post("/welcome", auth, userController.sayHello);
+app.post("/users", userController.getUsers);
+app.post("/students", studentController.getStudents);
 
 module.exports = app;
