@@ -28,4 +28,6 @@ app.post("/welcome", auth, userController.sayHello);
 app.post("/users", userController.getUsers);
 app.post("/students", studentController.getStudents);
 
+app.post("/guardian/create",guardianController.addGuardian)
+
 module.exports = app;

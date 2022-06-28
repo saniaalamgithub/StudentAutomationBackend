@@ -2,6 +2,7 @@ const guardianController = {};
 const db = require("../utils/db");
 var validator = require("validator");
 var enumData = require("../CONSTANTS/enums");
+const bcrypt = require("bcrypt");
 
 guardianController.getWardInfo = async (req, res) => {
   console.log(
@@ -76,6 +77,36 @@ guardianController.getWardInfo = async (req, res) => {
     res.status(401).json({ status: "You are not authorized to see this page" });
   }
 };
+
+guardianController.addGuardian = async (req,res) => {
+  userPassword = await bcrypt.hashSync(
+    req.password,
+    bcrypt.genSaltSync(Number(config.SALT_ROUND))
+  );
+  userSecret = await bcrypt.hashSync(
+    req.email,
+    bcrypt.genSaltSync(Number(config.SALT_ROUND))
+  );
+  await db.user.create(
+    {
+      email: req.email,
+      password: userPassword,
+      role: enumData.user[3],
+      secret_code: userSecret,
+      is_active: true,
+      guardian:{
+        name: req.name,
+        phone_number: req.number,
+      }
+    }
+  )
+  .then(() => {
+    console.log(`New Guardian Added`);
+  })
+  .catch((error) => {
+    return console.error(error);
+  });
+}
 
 secondaryTask = async (data, res) => {
   await db.guardian.findOne({

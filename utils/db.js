@@ -22,6 +22,7 @@ db.prerequisite = require("../models/prerequisite")(sequelize, Sequelize);
 db.notice = require("../models/notice")(sequelize, Sequelize);
 db.guardian = require("../models/guardian")(sequelize, Sequelize);
 db.attendence = require("../models/attendence")(sequelize, Sequelize);
+db.wardRequest = require("../models/wardRequest")(sequelize, Sequelize);
 
 //relations
 db.teacher.belongsTo(db.user);
@@ -62,6 +63,9 @@ db.complain.belongsTo(db.teacher); //by
 db.attendence.belongsTo(db.student);
 db.attendence.belongsTo(db.course);
 
+db.wardRequest.belongsTo(db.guardian);
+db.wardRequest.belongsTo(db.student);
+
 //reverse relation
 db.user.hasOne(db.teacher);
 db.department.hasMany(db.teacher);
@@ -98,6 +102,9 @@ db.teacher.hasMany(db.complain);
 
 db.student.hasMany(db.attendence);
 db.course.hasMany(db.attendence);
+
+db.guardian.hasMany(db.wardRequest);
+db.student.hasMany(db.wardRequest);
 
 db.sequelize.sync({ force: true, logging: false }).then(() => {
   console.log("Drop and re-sync db.");
