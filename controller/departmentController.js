@@ -20,7 +20,7 @@ departmentController.getDepartments = async (req, res) => {
   await db.department
     .findAll()
     .then((data) => {
-      if (data !== null) {
+      if (data === null) {
         res.status(404).json({
           status: "Not Found"
         });

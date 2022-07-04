@@ -62,7 +62,13 @@ studentController.createStudent = async (req, res) => {
 
 studentController.getStudents = async (req, res) => {
   await db.student
-    .findAll()
+    .findAll({
+      include: [
+        {
+          model: db.department
+        }
+      ]
+    })
     .then((data) => {
       if (data === null) {
         res.status(404).json({

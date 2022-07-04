@@ -4,13 +4,10 @@ const Section = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     section_name: { type: DataTypes.STRING, allowNull: false },
-    secret_code: { type: DataTypes.STRING, allowNull: false },
-    active: { type: DataTypes.BOOLEAN, defaultValue: false },
-    
-    
+    active: { type: DataTypes.BOOLEAN, defaultValue: false }
   });
 };
 

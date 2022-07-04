@@ -27,7 +27,7 @@ userController.tryLogin = async (req, res) => {
             { id: data.user_id, email: data.email, role: data.role },
             process.env.TOKEN_KEY,
             {
-              expiresIn: "2h"
+              expiresIn: "12h"
             }
           );
           res.status(200).json({ token: token, role: data.role });

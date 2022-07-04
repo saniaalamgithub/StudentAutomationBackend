@@ -62,9 +62,137 @@ teacherController.createTeacher = async (req, res) => {
 
 teacherController.getTeachers = async (req, res) => {
   await db.teacher
-    .findAll()
+    .findAll({
+      include: [
+        {
+          model: db.department
+        }
+      ]
+    })
     .then((data) => {
-      if (data !== null) {
+      if (data === null) {
+        res.status(404).json({
+          status: "Not Found"
+        });
+      } else {
+        res.status(200).json({
+          data
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
+
+teacherController.getOneTeacher = async (req, res) => {
+  await db.user
+    .findOne({
+      where: {
+        email: req.verifiedUser.email
+      },
+      include: [
+        {
+          model: db.teacher,
+          include: [
+            {
+              model: db.section,
+              include: [
+                {
+                  model: db.course
+                },
+                {
+                  model: db.notice
+                },
+                {
+                  model: db.courseTaken,
+                  include: [
+                    {
+                      model: db.student
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              model: db.complain
+            }
+          ]
+        }
+      ]
+    })
+    .then((data) => {
+      if (data === null) {
+        res.status(404).json({
+          status: "Not Found"
+        });
+      } else {
+        res.status(200).json({
+          data
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
+
+teacherController.getTeachersCourseList = async (req, res) => {
+  await db.teacher
+    .findByPk(req.params.id)
+    .then((data) => {
+      if (data === null) {
+        res.status(404).json({
+          status: "Not Found"
+        });
+      } else {
+        res.status(200).json({
+          data
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
+
+teacherController.takeAttendence = async (req, res) => {
+  console.log(req.body.attendenceData);
+  await db.attendence
+    .bulkCreate(req.body.attendenceData, {
+      updateOnDuplicate: ["attendence_id", "is_present"]
+    })
+    .then((data) => {
+      if (data === null) {
+        res.status(404).json({
+          status: "Insertion Failed"
+        });
+      } else {
+        res.status(200).json({
+          data
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+};
+
+teacherController.getAttendence = async (req, res) => {
+  await db.attendence
+    .findAll({
+      where: { sectionSectionId: req.params.secId },
+      include: [
+        {
+          model: db.student
+        }
+      ]
+    })
+    .then((data) => {
+      if (data === null) {
         res.status(404).json({
           status: "Not Found"
         });
