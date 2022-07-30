@@ -3,9 +3,21 @@ const db = require("../utils/db");
 
 courseController.getCourse = async (req, res) => {
     await db.course
-      .findAll()
+      .findAll({
+        include:[
+          {
+            model:db.section
+            
+          },
+          {
+            model:db.department
+          }
+          
+          
+        ]
+      })
       .then((data) => {
-        if (data !== null) {
+        if (data == null) {
           res.status(404).json({
             status: "Not Found"
           });
@@ -20,3 +32,6 @@ courseController.getCourse = async (req, res) => {
         res.status(500).send(error);
       });
   };
+
+  
+module.exports = courseController;

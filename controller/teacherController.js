@@ -48,7 +48,7 @@ teacherController.createTeacher = async (req, res) => {
         email: userEmail.trim().toLowerCase(),
         password: userPassword,
         role: userRole.trim().toUpperCase(),
-        secret_code: secretkey
+        secret_code: secretkey,
       })
       .then((data) => {
         res.status(200).json(data);
@@ -65,18 +65,18 @@ teacherController.getTeachers = async (req, res) => {
     .findAll({
       include: [
         {
-          model: db.department
+          model: db.department,
         }
-      ]
+      ],
     })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
-          status: "Not Found"
+          status: "Not Found",
         });
       } else {
         res.status(200).json({
-          data
+          data,
         });
       }
     })
@@ -90,7 +90,7 @@ teacherController.getOneTeacher = async (req, res) => {
   await db.user
     .findOne({
       where: {
-        email: req.verifiedUser.email
+        email: req.verifiedUser.email,
       },
       include: [
         {
@@ -100,36 +100,36 @@ teacherController.getOneTeacher = async (req, res) => {
               model: db.section,
               include: [
                 {
-                  model: db.course
+                  model: db.course,
                 },
                 {
-                  model: db.notice
+                  model: db.notice,
                 },
                 {
                   model: db.courseTaken,
                   include: [
                     {
-                      model: db.student
-                    }
-                  ]
-                }
-              ]
+                      model: db.student,
+                    },
+                  ],
+                },
+              ],
             },
             {
-              model: db.complain
-            }
-          ]
-        }
-      ]
+              model: db.complain,
+            },
+          ],
+        },
+      ],
     })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
-          status: "Not Found"
+          status: "Not Found",
         });
       } else {
         res.status(200).json({
-          data
+          data,
         });
       }
     })
@@ -141,15 +141,27 @@ teacherController.getOneTeacher = async (req, res) => {
 
 teacherController.getTeachersCourseList = async (req, res) => {
   await db.teacher
-    .findByPk(req.params.id)
+    .findByPk(req.params.id, {
+      include: [
+        {
+          model: db.section,
+
+          include: [
+            {
+              model: db.course,
+            },
+          ],
+        },
+      ],
+    })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
-          status: "Not Found"
+          status: "Not Found",
         });
       } else {
         res.status(200).json({
-          data
+          data,
         });
       }
     })
@@ -163,16 +175,16 @@ teacherController.takeAttendence = async (req, res) => {
   console.log(req.body.attendenceData);
   await db.attendence
     .bulkCreate(req.body.attendenceData, {
-      updateOnDuplicate: ["attendence_id", "is_present"]
+      updateOnDuplicate: ["attendence_id", "is_present"],
     })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
-          status: "Insertion Failed"
+          status: "Insertion Failed",
         });
       } else {
         res.status(200).json({
-          data
+          data,
         });
       }
     })
@@ -187,18 +199,18 @@ teacherController.getAttendence = async (req, res) => {
       where: { sectionSectionId: req.params.secId },
       include: [
         {
-          model: db.student
-        }
-      ]
+          model: db.student,
+        },
+      ],
     })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
-          status: "Not Found"
+          status: "Not Found",
         });
       } else {
         res.status(200).json({
-          data
+          data,
         });
       }
     })
