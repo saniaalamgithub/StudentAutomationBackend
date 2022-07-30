@@ -36,10 +36,10 @@ guardianController.getWardInfo = async (req, res) => {
                   },
                   {
                     model: db.result,
-                    include:[
-                        {
-                          model: db.course
-                        }
+                    include: [
+                      {
+                        model: db.course
+                      }
                     ]
                   },
                   {
@@ -78,7 +78,7 @@ guardianController.getWardInfo = async (req, res) => {
   }
 };
 
-guardianController.addGuardian = async (req,res) => {
+guardianController.addGuardian = async (req, res) => {
   userPassword = await bcrypt.hashSync(
     req.password,
     bcrypt.genSaltSync(Number(config.SALT_ROUND))
@@ -87,26 +87,51 @@ guardianController.addGuardian = async (req,res) => {
     req.email,
     bcrypt.genSaltSync(Number(config.SALT_ROUND))
   );
-  await db.user.create(
-    {
+  await db.user
+    .create({
       email: req.email,
       password: userPassword,
       role: enumData.user[3],
       secret_code: userSecret,
       is_active: true,
-      guardian:{
+      guardian: {
         name: req.name,
-        phone_number: req.number,
+        phone_number: req.number
       }
-    }
-  )
-  .then(() => {
-    console.log(`New Guardian Added`);
-  })
-  .catch((error) => {
-    return console.error(error);
-  });
-}
+    })
+    .then(() => {
+      console.log(`New Guardian Added`);
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+};
+
+guardianController.getGuardians = async (req, res) => {
+  await db.student
+    .findAll({
+      include: [
+        {
+          model: db.guardian
+        }
+      ]
+    })
+    .then((data) => {
+      if (data === null) {
+        res.status(404).json({
+          status: "Not Found"
+        });
+      } else {
+        res.status(200).json({
+          data
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
 
 secondaryTask = async (data, res) => {
   await db.guardian.findOne({

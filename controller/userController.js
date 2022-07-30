@@ -47,6 +47,7 @@ userController.createUser = async (req, res) => {
     let userEmail = req.body.email;
     let userPassword = req.body.password;
     let userRole = req.body.role;
+    console.log(userEmail + " - " + userPassword + " - " + userRole);
     await db.user
       .findOne({
         where: { email: userEmail.trim().toLowerCase() }
@@ -69,11 +70,11 @@ userController.createUser = async (req, res) => {
     ) {
       res.status(400).json({ status: "Bad Request" }); //
     } else {
-      userPassword = await bcrypt.hashSync(
+      userPassword = bcrypt.hashSync(
         userPassword.trim(),
         bcrypt.genSaltSync(Number(config.SALT_ROUND))
       );
-      let secretkey = await bcrypt.hashSync(
+      let secretkey = bcrypt.hashSync(
         userEmail.trim().toLowerCase(),
         bcrypt.genSaltSync(Number(config.SALT_ROUND))
       );

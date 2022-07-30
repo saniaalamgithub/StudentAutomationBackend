@@ -4,12 +4,11 @@ const Notice = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
-    content: { type: DataTypes.STRING, allowNull: false },
-    filePath: { type: DataTypes.STRING, allowNull: false },
-    
-    
+    title: { type: DataTypes.STRING, allowNull: false },
+    content: { type: DataTypes.STRING, allowNull: true },
+    filePath: { type: DataTypes.STRING, allowNull: true }
   });
 };
 module.exports = Notice;

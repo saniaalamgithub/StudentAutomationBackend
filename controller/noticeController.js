@@ -1,71 +1,41 @@
-const teacherController = {};
+const noticeController = {};
 const db = require("../utils/db");
 var validator = require("validator");
 var enumData = require("../CONSTANTS/enums");
 const config = process.env;
 
-teacherController.createTeacher = async (req, res) => {
-  let userEmail = req.body.email;
-  let userPassword = req.body.password;
-  let userRole = req.body.role;
-  teacherName =
-    req.body.teacherUniversityId =
-    req.body.teacherEmail =
-    req.body.teacherphoneNumber =
-      req.body.phone_number;
-  await db.user
-    .findOne({
-      where: { email: userEmail.trim().toLowerCase() }
+noticeController.createNotice = async (req, res) => {
+  let title = req.body.title;
+  let content = req.body.content;
+  let filePath = req.file;
+  console.log(title, " - ", content, " - ", filePath);
+  await db.notice
+    .create({
+      title: title.trim().toLowerCase(),
+      content: content.trim().toUpperCase(),
+      filePath: filePath?.filename,
+      userUserId: req.verifiedUser.id
     })
     .then((data) => {
-      if (data !== null) {
-        res.status(409).json({
-          status: "User already exist with that email address"
-        });
-        return;
-      }
+      res.status(200).json(data);
     })
     .catch((error) => {
       console.log(error);
       res.status(500).send(error);
     });
-  if (
-    !validator.isEmail(userEmail.trim()) ||
-    !enumData.user.includes(userRole.toUpperCase())
-  ) {
-    res.status(400).json({ status: "Bad Request" }); //
-  } else {
-    userPassword = await bcrypt.hashSync(
-      userPassword.trim(),
-      bcrypt.genSaltSync(Number(config.SALT_ROUND))
-    );
-    let secretkey = await bcrypt.hashSync(
-      userEmail.trim().toLowerCase(),
-      bcrypt.genSaltSync(Number(config.SALT_ROUND))
-    );
-    await db.user
-      .create({
-        email: userEmail.trim().toLowerCase(),
-        password: userPassword,
-        role: userRole.trim().toUpperCase(),
-        secret_code: secretkey
-      })
-      .then((data) => {
-        res.status(200).json(data);
-      })
-      .catch((error) => {
-        console.log(error);
-        res.status(500).send(error);
-      });
-  }
 };
 
-teacherController.getTeachers = async (req, res) => {
-  await db.teacher
+noticeController.getNotices = async (req, res) => {
+  await db.notice
     .findAll({
       include: [
         {
-          model: db.department
+          model: db.user,
+          include: [
+            {
+              model: db.teacher
+            }
+          ]
         }
       ]
     })
@@ -86,7 +56,7 @@ teacherController.getTeachers = async (req, res) => {
     });
 };
 
-teacherController.getOneTeacher = async (req, res) => {
+noticeController.getOneNotice = async (req, res) => {
   await db.user
     .findOne({
       where: {
@@ -94,7 +64,7 @@ teacherController.getOneTeacher = async (req, res) => {
       },
       include: [
         {
-          model: db.teacher,
+          model: db.notice,
           include: [
             {
               model: db.section,
@@ -139,8 +109,8 @@ teacherController.getOneTeacher = async (req, res) => {
     });
 };
 
-teacherController.getTeachersCourseList = async (req, res) => {
-  await db.teacher
+noticeController.getNoticesCourseList = async (req, res) => {
+  await db.notice
     .findByPk(req.params.id)
     .then((data) => {
       if (data === null) {
@@ -159,7 +129,7 @@ teacherController.getTeachersCourseList = async (req, res) => {
     });
 };
 
-teacherController.takeAttendence = async (req, res) => {
+noticeController.takeAttendence = async (req, res) => {
   console.log(req.body.attendenceData);
   await db.attendence
     .bulkCreate(req.body.attendenceData, {
@@ -181,7 +151,7 @@ teacherController.takeAttendence = async (req, res) => {
     });
 };
 
-teacherController.getAttendence = async (req, res) => {
+noticeController.getAttendence = async (req, res) => {
   await db.attendence
     .findAll({
       where: { sectionSectionId: req.params.secId },
@@ -208,4 +178,4 @@ teacherController.getAttendence = async (req, res) => {
     });
 };
 
-module.exports = teacherController;
+module.exports = noticeController;
