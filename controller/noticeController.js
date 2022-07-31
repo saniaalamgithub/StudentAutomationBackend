@@ -33,7 +33,21 @@ noticeController.getNotices = async (req, res) => {
           model: db.user,
           include: [
             {
-              model: db.teacher
+              model: db.teacher,
+              include: [
+                {
+                  model: db.department
+                }
+              ]
+            },
+            
+          ]
+        },
+        {
+          model: db.section,
+          include: [
+            {
+              model: db.course
             }
           ]
         }

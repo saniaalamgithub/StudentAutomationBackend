@@ -18,7 +18,16 @@ departmentController.createDepartment = async (req, res) => {
 };
 departmentController.getDepartments = async (req, res) => {
   await db.department
-    .findAll()
+    .findAll({
+      include:[
+        {
+          model:db.course
+        },
+        {
+          model:db.teacher
+        }
+      ]
+    })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
