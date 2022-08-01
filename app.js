@@ -49,6 +49,11 @@ const studentController = require("./controller/studentController");
 const departmentController = require("./controller/departmentController");
 const guardianController = require("./controller/guardianController");
 const teacherController = require("./controller/teacherController");
+const timeslotController = require("./controller/timeslotController");
+const resultController = require("./controller/resultController");
+const sectionController = require("./controller/sectionController");
+const courseController = require("./controller/courseController");
+const adminController = require("./controller/adminController");
 const noticeController = require("./controller/noticeController");
 const complainController = require("./controller/complainController");
 
@@ -57,18 +62,36 @@ app.post("/login", userController.tryLogin);
 app.post("/user/create", auth, userController.createUser);
 app.post("/student/create", auth, studentController.createStudent);
 app.post("/department/create", auth, departmentController.createDepartment);
-app.post("/student/create", auth, studentController.getStudents);
+app.post("/student/create", auth, studentController.createStudent);
 app.post("/departments", auth, departmentController.getDepartments);
 
 app.post("/ward", auth, guardianController.getWardInfo);
 app.post("/welcome", auth, userController.sayHello);
 app.post("/users", userController.getUsers);
-app.post("/students", studentController.getStudents);
+app.post("/students", auth, studentController.getStudents);
 app.post("/teachers", teacherController.getTeachers);
 app.post("/teacher", auth, teacherController.getOneTeacher);
 app.post("/teacher/:id/courses", auth, teacherController.getTeachersCourseList);
 app.post("/attendence", auth, teacherController.takeAttendence);
 app.post("/attendence/:secId", auth, teacherController.getAttendence);
+app.get("/student/:id/courses", studentController.getStudentAndCourse);
+app.post("/courses", auth, courseController.getCourse);
+
+app.post("/guardians", guardianController.getGuardians);
+app.post("/guardian/create", guardianController.addGuardian);
+app.post("/department/create", auth, departmentController.getDepartments);
+
+app.post(
+  "/notice/create",
+  auth,
+  upload.single("formFile"),
+  noticeController.createNotice
+);
+app.post("/complain/create", auth, complainController.createComplain);
+app.post("/notices", auth, noticeController.getNotices);
+app.post("/complains", auth, complainController.getComplains);
+
+app.put("/admin", auth, adminController.updateAdmin);
 
 app.post("/guardians", guardianController.getGuardians);
 app.post("/guardian/create", guardianController.addGuardian);

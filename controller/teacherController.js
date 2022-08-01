@@ -141,7 +141,19 @@ teacherController.getOneTeacher = async (req, res) => {
 
 teacherController.getTeachersCourseList = async (req, res) => {
   await db.teacher
-    .findByPk(req.params.id)
+    .findByPk(req.params.id, {
+      include: [
+        {
+          model: db.section,
+
+          include: [
+            {
+              model: db.course
+            }
+          ]
+        }
+      ]
+    })
     .then((data) => {
       if (data === null) {
         res.status(404).json({

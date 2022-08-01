@@ -24,13 +24,13 @@ userController.tryLogin = async (req, res) => {
           if (bcrypt.compare(userPassword.trim(), data.password))
             console.log(data);
           const token = jwt.sign(
-            { id: data.user_id, email: data.email, role: data.role },
+            { id: data.user_id, email: data.email, role: data.role, active: data.is_active },
             process.env.TOKEN_KEY,
             {
               expiresIn: "12h"
             }
           );
-          res.status(200).json({ token: token, role: data.role });
+          res.status(200).json({ token: token, role: data.role, active: data.is_active });
         }
       })
       .catch((error) => {
