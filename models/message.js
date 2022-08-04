@@ -8,8 +8,6 @@ const Message = function (sequelize, DataTypes) {
     },
     content: { type: DataTypes.STRING, allowNull: false },
     filePath: { type: DataTypes.STRING, allowNull: false },
-    
-    
   });
 };
 module.exports = Message;

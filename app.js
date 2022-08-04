@@ -9,7 +9,6 @@ app.use(cors());
 
 const auth = require("./middlewire/auth");
 
-
 const multer = require("multer");
 const path = require("path");
 
@@ -20,7 +19,7 @@ var storage = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(
       null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+      file.originalname.split('.').slice(0, -1).join('.') + "_" + Date.now() + path.extname(file.originalname)
     );
   },
   onError: function (err, next) {
@@ -44,7 +43,6 @@ const upload = multer({
   }
 });
 
-
 const seederController = require("./controller/seederController");
 const userController = require("./controller/userController");
 const studentController = require("./controller/studentController");
@@ -53,12 +51,12 @@ const guardianController = require("./controller/guardianController");
 const teacherController = require("./controller/teacherController");
 const timeslotController = require("./controller/timeslotController");
 const resultController = require("./controller/resultController");
-const sectionController = require ("./controller/sectionController");
-const courseController = require ("./controller/courseController");
+const sectionController = require("./controller/sectionController");
+const courseController = require("./controller/courseController");
 const adminController = require("./controller/adminController");
-const noticeController = require ("./controller/noticeController");
+const noticeController = require("./controller/noticeController");
 const complainController = require("./controller/complainController");
-
+const downloadContoller = require("./controller/downloadController");
 
 app.get("/load", seederController.doIt);
 app.post("/login", userController.tryLogin);
@@ -71,15 +69,14 @@ app.post("/departments", auth, departmentController.getDepartments);
 app.post("/ward", auth, guardianController.getWardInfo);
 app.post("/welcome", auth, userController.sayHello);
 app.post("/users", userController.getUsers);
-app.post("/students", auth,studentController.getStudents);
+app.post("/students", auth, studentController.getStudents);
 app.post("/teachers", teacherController.getTeachers);
 app.post("/teacher", auth, teacherController.getOneTeacher);
-app.post("/teacher/:id/courses",auth, teacherController.getTeachersCourseList);
+app.post("/teacher/:id/courses", auth, teacherController.getTeachersCourseList);
 app.post("/attendence", auth, teacherController.takeAttendence);
 app.post("/attendence/:secId", auth, teacherController.getAttendence);
 app.get("/student/:id/courses", studentController.getStudentAndCourse);
-app.post("/courses",auth, courseController.getCourse);
-
+app.post("/courses", auth, courseController.getCourse);
 
 app.post("/guardians", guardianController.getGuardians);
 app.post("/guardian/create", guardianController.addGuardian);
@@ -95,9 +92,21 @@ app.post("/complain/create", auth, complainController.createComplain);
 app.post("/notices", auth, noticeController.getNotices);
 app.post("/complains", auth, complainController.getComplains);
 
+app.put("/admin", auth, adminController.updateAdmin);
 
-app.put("/admin",auth, adminController.updateAdmin);
+app.post("/guardians", guardianController.getGuardians);
+app.post("/guardian/create", guardianController.addGuardian);
+app.post("/department/create", auth, departmentController.getDepartments);
 
-
+app.post(
+  "/notice/create",
+  auth,
+  upload.single("formFile"),
+  noticeController.createNotice
+);
+app.post("/complain/create", auth, complainController.createComplain);
+app.post("/notices", auth, noticeController.getNotices);
+app.post("/complains", auth, complainController.getComplains);
+app.post("/download", auth, downloadContoller.downloadFile);
 
 module.exports = app;

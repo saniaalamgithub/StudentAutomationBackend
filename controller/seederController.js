@@ -1,7 +1,6 @@
 const seederController = {};
 const db = require("../utils/db");
 const bcrypt = require("bcrypt");
-const { guardian, semester } = require("../utils/db");
 const config = process.env;
 
 seederController.doIt = async (req, res) => {
@@ -214,7 +213,7 @@ seederController.doIt = async (req, res) => {
               password: userPassword,
               role: "GUARDIAN",
               secret_code: "srytadfja64354a65a47dsa",
-              is_active: false
+              is_active: true
             }
           },
           semester: {
@@ -242,7 +241,7 @@ seederController.doIt = async (req, res) => {
               password: userPassword,
               role: "GUARDIAN",
               secret_code: "srytaews3ddad4a65a47dsa",
-              is_active: false
+              is_active: true
             }
           },
           semester: {
@@ -355,7 +354,7 @@ seederController.doIt = async (req, res) => {
         courseCourseId: 1
       },
       {
-        section_name: "A",
+        section_name: "C",
         active: true,
         timeslotTimeslotId: 3,
         teacherTeacherId: 1,
@@ -398,6 +397,31 @@ seederController.doIt = async (req, res) => {
     ])
     .then(() => {
       console.log(`Data Added to CourseTaken`);
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+
+  await db.notice
+    .bulkCreate([
+      {
+        title: "University closed on 17 September",
+        userUserId: 1
+      },
+      {
+        title: "Scholarships for Summer Semester 2022",
+        content:
+          "Applications are invited from meritorious but needy students of 2nd semester and onward for award of the following Scholarships for Summer semester 2022. Students enjoying 100% scholarship from the university do not qualify for the same. Eligible student who want to apply for need base scholarship visit this link and apply for scholarship. ",
+        userUserId: 1
+      },
+      {
+        title: "Your classmate needs help",
+        content:
+          "Applications are invited from meritorious but needy students of 2nd semester and onward for award of the following Scholarships for Summer semester 2022. Students enjoying 100% scholarship from the university do not qualify for the same. Eligible student who want to apply for need base scholarship visit this link and apply for scholarship. "
+      }
+    ])
+    .then(() => {
+      console.log(`Data Added to Notice`);
     })
     .catch((error) => {
       return console.error(error);

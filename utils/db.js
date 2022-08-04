@@ -22,6 +22,8 @@ db.prerequisite = require("../models/prerequisite")(sequelize, Sequelize);
 db.notice = require("../models/notice")(sequelize, Sequelize);
 db.guardian = require("../models/guardian")(sequelize, Sequelize);
 db.attendence = require("../models/attendence")(sequelize, Sequelize);
+db.wardRequest = require("../models/wardRequest")(sequelize, Sequelize);
+db.classEvent = require("../models/classEvent")(sequelize, Sequelize);
 
 //relations
 db.teacher.belongsTo(db.user);
@@ -41,6 +43,8 @@ db.prerequisite.belongsTo(db.course); //for_course
 db.section.belongsTo(db.timeslot);
 db.section.belongsTo(db.course);
 db.section.belongsTo(db.teacher);
+
+db.classEvent.belongsTo(db.section);
 
 db.courseTaken.belongsTo(db.section);
 db.courseTaken.belongsTo(db.student);
@@ -62,6 +66,9 @@ db.complain.belongsTo(db.teacher); //by
 db.attendence.belongsTo(db.student);
 db.attendence.belongsTo(db.section);
 
+db.wardRequest.belongsTo(db.guardian);
+db.wardRequest.belongsTo(db.student);
+
 //reverse relation
 db.user.hasOne(db.teacher);
 db.department.hasMany(db.teacher);
@@ -81,6 +88,8 @@ db.timeslot.hasMany(db.section);
 db.course.hasMany(db.section);
 db.teacher.hasMany(db.section);
 
+db.section.hasMany(db.classEvent);
+
 db.section.hasMany(db.courseTaken);
 db.student.hasMany(db.courseTaken);
 
@@ -98,6 +107,9 @@ db.teacher.hasMany(db.complain);
 
 db.student.hasMany(db.attendence);
 db.section.hasMany(db.attendence);
+
+db.guardian.hasMany(db.wardRequest);
+db.student.hasMany(db.wardRequest);
 
 db.sequelize.sync({ force: true, logging: false }).then(() => {
   console.log("Drop and re-sync db.");
