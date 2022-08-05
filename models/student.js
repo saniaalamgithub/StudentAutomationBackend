@@ -8,6 +8,7 @@ const Student = function (sequelize, DataTypes) {
     },
     name: { type: DataTypes.STRING, allowNull: false },
     university_student_id: { type: DataTypes.INTEGER, allowNull: false },
+    filePath: { type: DataTypes.STRING, allowNull: true },
     phone_number: { type: DataTypes.INTEGER, allowNull: true }
   });
 };

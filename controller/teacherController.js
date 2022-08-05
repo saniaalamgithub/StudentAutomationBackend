@@ -175,7 +175,7 @@ teacherController.takeAttendence = async (req, res) => {
   console.log(req.body.attendenceData);
   await db.attendence
     .bulkCreate(req.body.attendenceData, {
-      updateOnDuplicate: ["is_present"]
+      updateOnDuplicate: ["attendence_id", "is_present"]
     })
     .then((data) => {
       if (data === null) {

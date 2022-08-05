@@ -19,7 +19,10 @@ var storage = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(
       null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+      file.originalname.split(".").slice(0, -1).join(".") +
+        "_" +
+        Date.now() +
+        path.extname(file.originalname)
     );
   },
   onError: function (err, next) {
@@ -56,6 +59,7 @@ const courseController = require("./controller/courseController");
 const adminController = require("./controller/adminController");
 const noticeController = require("./controller/noticeController");
 const complainController = require("./controller/complainController");
+const downloadContoller = require("./controller/downloadController");
 
 app.get("/load", seederController.doIt);
 app.post("/login", userController.tryLogin);
@@ -106,5 +110,6 @@ app.post(
 app.post("/complain/create", auth, complainController.createComplain);
 app.post("/notices", auth, noticeController.getNotices);
 app.post("/complains", auth, complainController.getComplains);
+app.post("/download", auth, downloadContoller.downloadFile);
 
 module.exports = app;

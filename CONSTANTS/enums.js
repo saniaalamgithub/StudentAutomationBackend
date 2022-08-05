@@ -10,5 +10,5 @@ enumData.day = [
   "THRUSDAY"
 ];
 enumData.user = ["ADMIN", "STUDENT", "TEACHER", "GUARDIAN"];
-
+enumData.event = ["QUIZ", "MID", "FINAL", "ASSIGNMENT", "PRESENTATION"];
 module.exports = enumData;

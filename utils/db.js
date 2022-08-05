@@ -23,6 +23,7 @@ db.notice = require("../models/notice")(sequelize, Sequelize);
 db.guardian = require("../models/guardian")(sequelize, Sequelize);
 db.attendence = require("../models/attendence")(sequelize, Sequelize);
 db.wardRequest = require("../models/wardRequest")(sequelize, Sequelize);
+db.classEvent = require("../models/classEvent")(sequelize, Sequelize);
 
 //relations
 db.teacher.belongsTo(db.user);
@@ -42,6 +43,8 @@ db.prerequisite.belongsTo(db.course); //for_course
 db.section.belongsTo(db.timeslot);
 db.section.belongsTo(db.course);
 db.section.belongsTo(db.teacher);
+
+db.classEvent.belongsTo(db.section);
 
 db.courseTaken.belongsTo(db.section);
 db.courseTaken.belongsTo(db.student);
@@ -84,6 +87,8 @@ db.course.hasOne(db.prerequisite);
 db.timeslot.hasMany(db.section);
 db.course.hasMany(db.section);
 db.teacher.hasMany(db.section);
+
+db.section.hasMany(db.classEvent);
 
 db.section.hasMany(db.courseTaken);
 db.student.hasMany(db.courseTaken);

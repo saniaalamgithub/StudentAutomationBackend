@@ -1,7 +1,6 @@
 const seederController = {};
 const db = require("../utils/db");
 const bcrypt = require("bcrypt");
-const { guardian, semester } = require("../utils/db");
 const config = process.env;
 
 seederController.doIt = async (req, res) => {
@@ -214,7 +213,7 @@ seederController.doIt = async (req, res) => {
               password: userPassword,
               role: "GUARDIAN",
               secret_code: "srytadfja64354a65a47dsa",
-              is_active: false
+              is_active: true
             }
           },
           semester: {
@@ -242,7 +241,7 @@ seederController.doIt = async (req, res) => {
               password: userPassword,
               role: "GUARDIAN",
               secret_code: "srytaews3ddad4a65a47dsa",
-              is_active: false
+              is_active: true
             }
           },
           semester: {
