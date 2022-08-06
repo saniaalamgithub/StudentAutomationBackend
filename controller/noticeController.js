@@ -8,7 +8,6 @@ noticeController.createNotice = async (req, res) => {
   let title = req.body.title;
   let content = req.body.content;
   let filePath = req.file;
-  console.log(title, " - ", content, " - ", filePath);
   await db.notice
     .create({
       title: title.trim().toLowerCase(),
@@ -39,8 +38,7 @@ noticeController.getNotices = async (req, res) => {
                   model: db.department
                 }
               ]
-            },
-            
+            }
           ]
         },
         {
@@ -144,7 +142,6 @@ noticeController.getNoticesCourseList = async (req, res) => {
 };
 
 noticeController.takeAttendence = async (req, res) => {
-  console.log(req.body.attendenceData);
   await db.attendence
     .bulkCreate(req.body.attendenceData, {
       updateOnDuplicate: ["is_present"]

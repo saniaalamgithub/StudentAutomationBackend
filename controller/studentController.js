@@ -7,12 +7,12 @@ const bcrypt = require("bcrypt");
 studentController.createStudent = async (req, res) => {
   await db.user
     .findOne({
-      where: { email: req.body.email.trim().toLowerCase() },
+      where: { email: req.body.email.trim().toLowerCase() }
     })
     .then((data) => {
       if (data !== null) {
         res.status(409).json({
-          status: "User already exist with that email address",
+          status: "User already exist with that email address"
         });
         return;
       }
@@ -33,37 +33,42 @@ studentController.createStudent = async (req, res) => {
       req.body.email.trim().toLowerCase(),
       bcrypt.genSaltSync(Number(config.SALT_ROUND))
     );
-    await db.user.update({ email: req.body.email.trim().toLowerCase() , password:req.body.password}, {
-      where: {
-        email: req.verifiedUser.email
-      }
-    }).then((data) => {
-      console.log("api call successful",data)
-      res.status(200).json(data);
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).send(error);
-    });
+    await db.user
+      .update(
+        {
+          email: req.body.email.trim().toLowerCase(),
+          password: req.body.password
+        },
+        {
+          where: {
+            email: req.verifiedUser.email
+          }
+        }
+      )
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send(error);
+      });
     await db.student
       .create({
         name: req.body.student.name,
         university_student_id: req.body.student.id,
         phone_number: req.body.student.phoneNumber,
         user: {
-
           email: req.body.email,
           password: userPassword,
           role: "STUDENT",
           secret_code: secretkey,
-          is_active: true,
+          is_active: true
         },
-        userUserId:2,
+        userUserId: 2,
         departmentDepartmentId: 3,
-        semesterSemesterId: 2,
+        semesterSemesterId: 2
       })
       .then((data) => {
-        console.log("api call successful",data)
         res.status(200).json(data);
       })
       .catch((error) => {
@@ -81,23 +86,23 @@ studentController.getStudents = async (req, res) => {
           model: db.department,
           include: [
             {
-              model: db.teacher,
-            },
-          ],
+              model: db.teacher
+            }
+          ]
         },
         {
-          model: db.semester,
-        },
-      ],
+          model: db.semester
+        }
+      ]
     })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
-          status: "Not Found",
+          status: "Not Found"
         });
       } else {
         res.status(200).json({
-          data,
+          data
         });
       }
     })
@@ -111,9 +116,9 @@ studentController.getStudentAndCourse = async (req, res) => {
   await db.student.findByPk(req.params.id, {
     include: [
       {
-        model: db.courseTaken,
-      },
-    ],
+        model: db.courseTaken
+      }
+    ]
   });
 };
 

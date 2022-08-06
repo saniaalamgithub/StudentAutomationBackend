@@ -7,7 +7,7 @@ const Guardian = function (sequelize, DataTypes) {
       primaryKey: true
     },
     name: { type: DataTypes.STRING, allowNull: false },
-    phone_number: { type: DataTypes.INTEGER, allowNull: true }
+    phone_number: { type: DataTypes.BIGINT, allowNull: true }
   });
 };
 module.exports = Guardian;

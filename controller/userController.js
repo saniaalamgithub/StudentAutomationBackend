@@ -24,13 +24,20 @@ userController.tryLogin = async (req, res) => {
           if (bcrypt.compare(userPassword.trim(), data.password))
             console.log(data);
           const token = jwt.sign(
-            { id: data.user_id, email: data.email, role: data.role, active: data.is_active },
+            {
+              id: data.user_id,
+              email: data.email,
+              role: data.role,
+              active: data.is_active
+            },
             process.env.TOKEN_KEY,
             {
               expiresIn: "12h"
             }
           );
-          res.status(200).json({ token: token, role: data.role, active: data.is_active });
+          res
+            .status(200)
+            .json({ token: token, role: data.role, active: data.is_active });
         }
       })
       .catch((error) => {
@@ -69,11 +76,11 @@ userController.createUser = async (req, res) => {
     ) {
       res.status(400).json({ status: "Bad Request" }); //
     } else {
-      userPassword = await bcrypt.hashSync(
+      userPassword = bcrypt.hashSync(
         userPassword.trim(),
         bcrypt.genSaltSync(Number(config.SALT_ROUND))
       );
-      let secretkey = await bcrypt.hashSync(
+      let secretkey = bcrypt.hashSync(
         userEmail.trim().toLowerCase(),
         bcrypt.genSaltSync(Number(config.SALT_ROUND))
       );
