@@ -76,6 +76,7 @@ app.post("/users", userController.getUsers);
 app.post("/students", auth, studentController.getStudents);
 app.post("/teachers", teacherController.getTeachers);
 app.post("/semesters", semesterController.getSemesters);
+app.post("/sections", sectionController.getSections);
 app.post("/teacher", auth, teacherController.getOneTeacher);
 app.post(
   "/teacher/create",
