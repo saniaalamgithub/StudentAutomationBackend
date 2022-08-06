@@ -3,7 +3,7 @@ const db = require("../utils/db");
 
 departmentController.createDepartment = async (req, res) => {
   let deptName = req.body.name;
-  let deptShortCode = req.body.short_code;
+  let deptShortCode = req.body.shortCode;
   await db.department
     .create({
       name: deptName.trim().toLowerCase(),

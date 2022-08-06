@@ -92,6 +92,22 @@ studentController.getStudents = async (req, res) => {
         },
         {
           model: db.semester
+        },
+        {
+          model: db.guardian
+        },
+        {
+          model: db.courseTaken,
+          include: [
+            {
+              model: db.section,
+              include: [
+                {
+                  model: db.course
+                }
+              ]
+            }
+          ]
         }
       ]
     })
