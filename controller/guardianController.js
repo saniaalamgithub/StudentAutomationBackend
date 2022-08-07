@@ -5,12 +5,6 @@ var enumData = require("../CONSTANTS/enums");
 const bcrypt = require("bcrypt");
 
 guardianController.getWardInfo = async (req, res) => {
-  console.log(
-    req.verifiedUser.role,
-    " - ",
-    enumData.user[3],
-    req.verifiedUser.id
-  );
   if (req.verifiedUser.role === enumData.user[3]) {
     await db.user
       .findByPk(req.verifiedUser.id, {

@@ -1,4 +1,6 @@
 const teacherController = {};
+var jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const db = require("../utils/db");
 var validator = require("validator");
 var enumData = require("../CONSTANTS/enums");
@@ -6,13 +8,8 @@ const config = process.env;
 
 teacherController.createTeacher = async (req, res) => {
   let userEmail = req.body.email;
-  let userPassword = req.body.password;
-  let userRole = req.body.role;
-  teacherName =
-    req.body.teacherUniversityId =
-    req.body.teacherEmail =
-    req.body.teacherphoneNumber =
-      req.body.phone_number;
+  let userPassword = req.body.pass;
+  console.log(req.file + "------", req.body.phoneNumber);
   await db.user
     .findOne({
       where: { email: userEmail.trim().toLowerCase() }
@@ -28,12 +25,12 @@ teacherController.createTeacher = async (req, res) => {
     .catch((error) => {
       console.log(error);
       res.status(500).send(error);
+      return;
     });
-  if (
-    !validator.isEmail(userEmail.trim()) ||
-    !enumData.user.includes(userRole.toUpperCase())
-  ) {
+
+  if (!validator.isEmail(userEmail.trim())) {
     res.status(400).json({ status: "Bad Request" }); //
+    return;
   } else {
     userPassword = await bcrypt.hashSync(
       userPassword.trim(),
@@ -172,7 +169,6 @@ teacherController.getTeachersCourseList = async (req, res) => {
 };
 
 teacherController.takeAttendence = async (req, res) => {
-  console.log(req.body.attendenceData);
   await db.attendence
     .bulkCreate(req.body.attendenceData, {
       updateOnDuplicate: ["attendence_id", "is_present"]

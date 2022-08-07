@@ -97,6 +97,66 @@ seederController.doIt = async (req, res) => {
       [
         {
           name: "SPRING",
+          year: "2017"
+        },
+        {
+          name: "SUMMER",
+          year: "2017"
+        },
+        {
+          name: "FALL",
+          year: "2017"
+        },
+        {
+          name: "SPRING",
+          year: "2018"
+        },
+        {
+          name: "SUMMER",
+          year: "2018"
+        },
+        {
+          name: "FALL",
+          year: "2018"
+        },
+        {
+          name: "SPRING",
+          year: "2019"
+        },
+        {
+          name: "SUMMER",
+          year: "2019"
+        },
+        {
+          name: "FALL",
+          year: "2019"
+        },
+        {
+          name: "SPRING",
+          year: "2020"
+        },
+        {
+          name: "SUMMER",
+          year: "2020"
+        },
+        {
+          name: "FALL",
+          year: "2020"
+        },
+        {
+          name: "SPRING",
+          year: "2021"
+        },
+        {
+          name: "SUMMER",
+          year: "2021"
+        },
+        {
+          name: "FALL",
+          year: "2021"
+        },
+        {
+          name: "SPRING",
           year: "2022"
         },
         {

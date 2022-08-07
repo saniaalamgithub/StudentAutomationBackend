@@ -34,7 +34,7 @@ var storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 50000000 // 50000000 Bytes = 50 MB
+    fileSize: 500000000 // 500000000 Bytes = 500 MB
   },
   fileFilter(req, file, cb) {
     console.log("filtering");
@@ -60,6 +60,7 @@ const adminController = require("./controller/adminController");
 const noticeController = require("./controller/noticeController");
 const complainController = require("./controller/complainController");
 const downloadContoller = require("./controller/downloadController");
+const semesterController = require("./controller/semesterController");
 
 app.get("/load", seederController.doIt);
 app.post("/login", userController.tryLogin);
@@ -74,7 +75,15 @@ app.post("/welcome", auth, userController.sayHello);
 app.post("/users", userController.getUsers);
 app.post("/students", auth, studentController.getStudents);
 app.post("/teachers", teacherController.getTeachers);
+app.post("/semesters", semesterController.getSemesters);
+app.post("/sections", sectionController.getSections);
 app.post("/teacher", auth, teacherController.getOneTeacher);
+app.post(
+  "/teacher/create",
+  auth,
+  upload.single("teacherPhoto"),
+  teacherController.createTeacher
+);
 app.post("/teacher/:id/courses", auth, teacherController.getTeachersCourseList);
 app.post("/attendence", auth, teacherController.takeAttendence);
 app.post("/attendence/:secId", auth, teacherController.getAttendence);
@@ -101,12 +110,6 @@ app.post("/guardians", guardianController.getGuardians);
 app.post("/guardian/create", guardianController.addGuardian);
 app.post("/department/create", auth, departmentController.getDepartments);
 
-app.post(
-  "/notice/create",
-  auth,
-  upload.single("formFile"),
-  noticeController.createNotice
-);
 app.post("/complain/create", auth, complainController.createComplain);
 app.post("/notices", auth, noticeController.getNotices);
 app.post("/complains", auth, complainController.getComplains);

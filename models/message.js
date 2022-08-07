@@ -4,10 +4,10 @@ const Message = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     content: { type: DataTypes.STRING, allowNull: false },
-    filePath: { type: DataTypes.STRING, allowNull: false },
+    filePath: { type: DataTypes.STRING, allowNull: false }
   });
 };
 module.exports = Message;

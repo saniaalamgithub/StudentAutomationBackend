@@ -27,7 +27,6 @@ adminController.updateAdmin = async (req, res) => {
       req.body.password.trim(),
       bcrypt.genSaltSync(Number(config.SALT_ROUND))
     );
-    console.log(updatedUser);
     await db.user
       .update(updatedUser, {
         where: {
