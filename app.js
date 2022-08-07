@@ -4,13 +4,15 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
+const multer = require("multer");
+const path = require("path");
+
 const cors = require("cors");
 app.use(cors());
+app.use('/u/',express.static(path.join(__dirname,'uploads')));
 
 const auth = require("./middlewire/auth");
 
-const multer = require("multer");
-const path = require("path");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
