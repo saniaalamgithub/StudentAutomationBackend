@@ -27,9 +27,9 @@ semesterController.createSemester = async (req, res) => {
 };
 semesterController.getSemesters = async (req, res) => {
   await db.semester
-    .findAll()
+    .findAll({ order: ["year"] })
     .then((data) => {
-      if (data !== null) {
+      if (data === null) {
         res.status(404).json({
           status: "Not Found"
         });

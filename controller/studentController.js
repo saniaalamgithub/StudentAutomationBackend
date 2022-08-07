@@ -4,6 +4,7 @@ var validator = require("validator");
 var enumData = require("../CONSTANTS/enums");
 const config = process.env;
 const bcrypt = require("bcrypt");
+
 studentController.createStudent = async (req, res) => {
   await db.user
     .findOne({

@@ -4,7 +4,7 @@ const Timeslot = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     day: {
       type: DataTypes.ENUM(
@@ -14,12 +14,17 @@ const Timeslot = function (sequelize, DataTypes) {
         "MONDAY",
         "TUESDAY",
         "WEDNESDAY",
-        "THRUSDAY"
+        "THRUSDAY",
+        "SUNDAY-TUESDAY",
+        "MONDAY-WEDNESDAY",
+        "FRIDAY-WEDNESDAY",
+        "TUESDAY-THRUSDAY",
+        "SUNDAY-MONDAY"
       ),
-      allowNull: false,
+      allowNull: false
     },
     start_time: { type: DataTypes.DATE, allowNull: false },
-    end_time: { type: DataTypes.DATE, allowNull: false },
+    end_time: { type: DataTypes.DATE, allowNull: false }
   });
 };
 
