@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("./sequelize");
+const seeder = require("./seeder");
 const db = {};
 
 db.sequelize = sequelize;
@@ -113,6 +114,8 @@ db.student.hasMany(db.wardRequest);
 
 db.sequelize.sync({ force: true, logging: false }).then(() => {
   console.log("Drop and re-sync db.");
+  let x = seeder.doIt(db);
+  console.log("--------------------Started---------------", x);
 });
 
 module.exports = db;

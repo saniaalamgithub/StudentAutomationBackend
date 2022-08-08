@@ -4,13 +4,15 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
+const multer = require("multer");
+const path = require("path");
+
 const cors = require("cors");
 app.use(cors());
+app.use('/u/',express.static(path.join(__dirname,'uploads')));
 
 const auth = require("./middlewire/auth");
 
-const multer = require("multer");
-const path = require("path");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -67,7 +69,9 @@ app.post("/login", userController.tryLogin);
 app.post("/user/create", auth, userController.createUser);
 app.post("/student/create", auth, studentController.createStudent);
 app.post("/department/create", auth, departmentController.createDepartment);
+app.post("/course/create", auth, courseController.createCourse);
 app.post("/student/create", auth, studentController.createStudent);
+app.post("/section/create", auth, sectionController.createSection);
 app.post("/departments", auth, departmentController.getDepartments);
 
 app.post("/ward", auth, guardianController.getWardInfo);
@@ -89,6 +93,7 @@ app.post("/attendence", auth, teacherController.takeAttendence);
 app.post("/attendence/:secId", auth, teacherController.getAttendence);
 app.get("/student/:id/courses", studentController.getStudentAndCourse);
 app.post("/courses", auth, courseController.getCourse);
+app.post("/timeslots", auth, timeslotController.getTimeslots);
 
 app.post("/guardians", guardianController.getGuardians);
 app.post("/guardian/create", guardianController.addGuardian);
@@ -114,5 +119,4 @@ app.post("/complain/create", auth, complainController.createComplain);
 app.post("/notices", auth, noticeController.getNotices);
 app.post("/complains", auth, complainController.getComplains);
 app.post("/download", auth, downloadContoller.downloadFile);
-
 module.exports = app;

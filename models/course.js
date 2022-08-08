@@ -4,13 +4,12 @@ const Course = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     name: { type: DataTypes.STRING, allowNull: false },
     short_code: { type: DataTypes.STRING, allowNull: false },
     credit: { type: DataTypes.INTEGER, allowNull: false },
-    serial: { type: DataTypes.INTEGER, allowNull: false },
-    is_offered: { type: DataTypes.BOOLEAN, defaultValue: false },
+    is_offered: { type: DataTypes.BOOLEAN, defaultValue: false }
   });
 };
 

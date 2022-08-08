@@ -63,6 +63,14 @@ teacherController.getTeachers = async (req, res) => {
       include: [
         {
           model: db.department
+        },
+        {
+          model: db.section,
+          include: [
+            {
+              model: db.course
+            }
+          ]
         }
       ]
     })

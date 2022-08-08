@@ -9,7 +9,7 @@ const Teacher = function (sequelize, DataTypes) {
     name: { type: DataTypes.STRING, allowNull: false },
     filePath: { type: DataTypes.STRING, allowNull: true },
     designation: { type: DataTypes.STRING, allowNull: false },
-    phone_number: { type: DataTypes.INTEGER, allowNull: true }
+    phone_number: { type: DataTypes.BIGINT, allowNull: true }
   });
 };
 
