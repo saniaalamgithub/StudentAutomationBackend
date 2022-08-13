@@ -9,10 +9,9 @@ const path = require("path");
 
 const cors = require("cors");
 app.use(cors());
-app.use('/u/',express.static(path.join(__dirname,'uploads')));
+app.use("/u/", express.static(path.join(__dirname, "uploads")));
 
 const auth = require("./middlewire/auth");
-
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -63,6 +62,8 @@ const noticeController = require("./controller/noticeController");
 const complainController = require("./controller/complainController");
 const downloadContoller = require("./controller/downloadController");
 const semesterController = require("./controller/semesterController");
+const eventController = require("./controller/eventController");
+const messageController = require("./controller/messageController");
 
 app.get("/load", seederController.doIt);
 app.post("/login", userController.tryLogin);
@@ -81,6 +82,7 @@ app.post("/students", auth, studentController.getStudents);
 app.post("/teachers", teacherController.getTeachers);
 app.post("/semesters", semesterController.getSemesters);
 app.post("/sections", sectionController.getSections);
+app.post("/section/:id", sectionController.getSection);
 app.post("/teacher", auth, teacherController.getOneTeacher);
 app.post(
   "/teacher/create",
@@ -99,14 +101,7 @@ app.post("/guardians", guardianController.getGuardians);
 app.post("/guardian/create", guardianController.addGuardian);
 app.post("/department/create", auth, departmentController.getDepartments);
 
-app.post(
-  "/notice/create",
-  auth,
-  upload.single("formFile"),
-  noticeController.createNotice
-);
 app.post("/complain/create", auth, complainController.createComplain);
-app.post("/notices", auth, noticeController.getNotices);
 app.post("/complains", auth, complainController.getComplains);
 
 app.put("/admin", auth, adminController.updateAdmin);
@@ -116,7 +111,27 @@ app.post("/guardian/create", guardianController.addGuardian);
 app.post("/department/create", auth, departmentController.getDepartments);
 
 app.post("/complain/create", auth, complainController.createComplain);
+
+app.post(
+  "/notice/create",
+  auth,
+  upload.single("formFile"),
+  noticeController.createNotice
+);
 app.post("/notices", auth, noticeController.getNotices);
+app.delete("/notice/:id", noticeController.deleteNotice);
+app.post("/section/:id/notice", auth, noticeController.getNoticesForSection);
+
 app.post("/complains", auth, complainController.getComplains);
+app.post("/students/complain", auth, complainController.getNoticesForStudents);
+app.delete("/complain/:id", complainController.deleteComplain);
 app.post("/download", auth, downloadContoller.downloadFile);
+
+app.post("/event/create", auth, eventController.createEvent);
+app.post("/section/:id/event", auth, eventController.getEvent);
+app.delete("/event/:id", eventController.deleteEvent);
+
+app.post("/section/:id/message", auth, messageController.getMessages);
+
+app.post("/courses/:id/result", auth, resultController.getResultByCourse);
 module.exports = app;

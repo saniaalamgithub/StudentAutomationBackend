@@ -19,11 +19,9 @@ db.result = require("../models/result")(sequelize, Sequelize);
 db.semester = require("../models/semester")(sequelize, Sequelize);
 db.complain = require("../models/complain")(sequelize, Sequelize);
 db.courseTaken = require("../models/courseTaken")(sequelize, Sequelize);
-db.prerequisite = require("../models/prerequisite")(sequelize, Sequelize);
 db.notice = require("../models/notice")(sequelize, Sequelize);
 db.guardian = require("../models/guardian")(sequelize, Sequelize);
 db.attendence = require("../models/attendence")(sequelize, Sequelize);
-db.wardRequest = require("../models/wardRequest")(sequelize, Sequelize);
 db.classEvent = require("../models/classEvent")(sequelize, Sequelize);
 
 //relations
@@ -39,8 +37,6 @@ db.guardian.belongsTo(db.user);
 
 db.course.belongsTo(db.department);
 
-db.prerequisite.belongsTo(db.course); //for_course
-
 db.section.belongsTo(db.timeslot);
 db.section.belongsTo(db.course);
 db.section.belongsTo(db.teacher);
@@ -54,10 +50,8 @@ db.result.belongsTo(db.course);
 db.result.belongsTo(db.student);
 
 db.message.belongsTo(db.user);
-db.message.belongsTo(db.user);
 db.message.belongsTo(db.section);
 
-db.notice.belongsTo(db.user);
 db.notice.belongsTo(db.user);
 db.notice.belongsTo(db.section);
 
@@ -66,9 +60,6 @@ db.complain.belongsTo(db.teacher); //by
 
 db.attendence.belongsTo(db.student);
 db.attendence.belongsTo(db.section);
-
-db.wardRequest.belongsTo(db.guardian);
-db.wardRequest.belongsTo(db.student);
 
 //reverse relation
 db.user.hasOne(db.teacher);
@@ -82,8 +73,6 @@ db.semester.hasMany(db.student);
 db.user.hasOne(db.guardian);
 
 db.department.hasMany(db.course);
-
-db.course.hasOne(db.prerequisite);
 
 db.timeslot.hasMany(db.section);
 db.course.hasMany(db.section);
@@ -108,9 +97,6 @@ db.teacher.hasMany(db.complain);
 
 db.student.hasMany(db.attendence);
 db.section.hasMany(db.attendence);
-
-db.guardian.hasMany(db.wardRequest);
-db.student.hasMany(db.wardRequest);
 
 db.sequelize.sync({ force: true, logging: false }).then(() => {
   console.log("Drop and re-sync db.");

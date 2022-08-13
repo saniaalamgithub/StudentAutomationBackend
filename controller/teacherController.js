@@ -41,20 +41,61 @@ teacherController.createTeacher = async (req, res) => {
       bcrypt.genSaltSync(Number(config.SALT_ROUND))
     );
     await db.user
-      .create({
-        email: userEmail.trim().toLowerCase(),
-        password: userPassword,
-        role: userRole.trim().toUpperCase(),
-        secret_code: secretkey
-      })
-      .then((data) => {
-        res.status(200).json(data);
-      })
+      .update(
+        {
+          email: userEmail.trim().toLowerCase(),
+          password: userPassword,
+          secret_code: secretkey,
+          is_active: true
+        },
+        {
+          where: {
+            user_id: req.verifiedUser.id
+          }
+        }
+      )
       .catch((error) => {
         console.log(error);
         res.status(500).send(error);
+        return;
       });
+
+    // await db.user
+    //   .create({
+    //     email: userEmail.trim().toLowerCase(),
+    //     password: userPassword,
+    //     role: userRole.trim().toUpperCase(),
+    //     secret_code: secretkey
+    //   })
+    //   .then((data) => {
+    //     res.status(200).json(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     res.status(500).send(error);
+    //   });
   }
+
+  await db.teacher
+    .create({
+      name: req.body.name,
+      phone_number: Number(req.body.phoneNumber),
+      filePath: req.file?.filename,
+      designation: req.body.designation,
+      userUserId: req.verifiedUser.id,
+      departmentDepartmentId: req.body.department
+    })
+    .then((data) => {
+      res.status(200).json({
+        status: "Done"
+      });
+      return;
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+      return;
+    });
 };
 
 teacherController.getTeachers = async (req, res) => {
@@ -111,6 +152,9 @@ teacherController.getOneTeacher = async (req, res) => {
                   model: db.notice
                 },
                 {
+                  model: db.classEvent
+                },
+                {
                   model: db.courseTaken,
                   include: [
                     {
@@ -122,6 +166,9 @@ teacherController.getOneTeacher = async (req, res) => {
             },
             {
               model: db.complain
+            },
+            {
+              model: db.user
             }
           ]
         }

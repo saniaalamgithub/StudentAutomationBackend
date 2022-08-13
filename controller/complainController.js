@@ -5,56 +5,49 @@ var enumData = require("../CONSTANTS/enums");
 const config = process.env;
 
 complainController.createComplain = async (req, res) => {
-  let userEmail = req.body.email;
-  let userPassword = req.body.password;
-  let userRole = req.body.role;
-  complainName =
-    req.body.complainUniversityId =
-    req.body.complainEmail =
-    req.body.complainphoneNumber =
-      req.body.phone_number;
-  await db.user
-    .findOne({
-      where: { email: userEmail.trim().toLowerCase() }
-    })
-    .then((data) => {
-      if (data !== null) {
-        res.status(409).json({
-          status: "User already exist with that email address"
-        });
-        return;
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).send(error);
-    });
-  if (
-    !validator.isEmail(userEmail.trim()) ||
-    !enumData.user.includes(userRole.toUpperCase())
-  ) {
-    res.status(400).json({ status: "Bad Request" }); //
-  } else {
-    userPassword = await bcrypt.hashSync(
-      userPassword.trim(),
-      bcrypt.genSaltSync(Number(config.SALT_ROUND))
-    );
-    let secretkey = await bcrypt.hashSync(
-      userEmail.trim().toLowerCase(),
-      bcrypt.genSaltSync(Number(config.SALT_ROUND))
-    );
-    await db.user
+  console.log(req.body.id);
+  if (req.body.id === 0) {
+    await db.complain
       .create({
-        email: userEmail.trim().toLowerCase(),
-        password: userPassword,
-        role: userRole.trim().toUpperCase(),
-        secret_code: secretkey
+        date: req.body.date,
+        content: req.body.content,
+        notify_parent: req.body.notify_parent,
+        studentStudentId: req.body.studentId,
+        teacherTeacherId: req.body.teacherId
       })
       .then((data) => {
-        res.status(200).json(data);
+        if (data !== null) {
+          res.status(200).json(data);
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("err", error);
+        res.status(500).send(error);
+      });
+  } else {
+    await db.complain
+      .update(
+        {
+          complain_id: req.body.id,
+          date: req.body.date,
+          content: req.body.content,
+          notify_parent: req.body.notify_parent,
+          studentStudentId: req.body.studentId,
+          teacherTeacherId: req.body.teacherId
+        },
+        {
+          where: {
+            complain_id: req.body.id
+          }
+        }
+      )
+      .then((data) => {
+        if (data !== null) {
+          res.status(200).json(data);
+        }
+      })
+      .catch((error) => {
+        console.log("err", error);
         res.status(500).send(error);
       });
   }
@@ -86,6 +79,57 @@ complainController.getComplains = async (req, res) => {
         res.status(200).json({
           data
         });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
+
+complainController.getNoticesForStudents = async (req, res) => {
+  await db.complain
+    .findAll({
+      where: {
+        studentStudentId: req.body.ids
+      },
+      include: [
+        {
+          model: db.student
+        },
+        {
+          model: db.teacher
+        }
+      ]
+    })
+    .then((data) => {
+      if (data === null) {
+        res.status(404).json({
+          status: "Not Found"
+        });
+      } else {
+        res.status(200).json({
+          data
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
+
+complainController.deleteComplain = async (req, res) => {
+  console.log(req.params.id);
+  await db.complain
+    .destroy({
+      where: {
+        complain_id: req.params.id
+      }
+    })
+    .then((data) => {
+      if (data !== null) {
+        res.status(200).json(data);
       }
     })
     .catch((error) => {
