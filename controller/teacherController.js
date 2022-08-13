@@ -152,6 +152,9 @@ teacherController.getOneTeacher = async (req, res) => {
                   model: db.notice
                 },
                 {
+                  model: db.classEvent
+                },
+                {
                   model: db.courseTaken,
                   include: [
                     {
@@ -163,6 +166,9 @@ teacherController.getOneTeacher = async (req, res) => {
             },
             {
               model: db.complain
+            },
+            {
+              model: db.user
             }
           ]
         }

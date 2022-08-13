@@ -12,20 +12,20 @@ seeder.doIt = async (db) => {
         // },
         {
           name: "Bachelor of Business Administration",
-          short_code: "BBA",
+          short_code: "BBA"
         },
         {
           name: "Bachelor of Science in Mechanical Engineering",
-          short_code: "BSME",
+          short_code: "BSME"
         },
         {
           name: "Bachelor of Electrical & Electronics Engineering",
-          short_code: "BEEE",
+          short_code: "BEEE"
         },
         {
           name: "Bachelor of Computer Science & Engineering",
-          short_code: "BCSE",
-        },
+          short_code: "BCSE"
+        }
       ],
       { validate: true }
     )
@@ -42,23 +42,23 @@ seeder.doIt = async (db) => {
         {
           day: "SUNDAY",
           start_time: "2018-01-01T10:00:00.000Z",
-          end_time: "2018-01-01T11:30:00",
+          end_time: "2018-01-01T11:30:00"
         },
         {
           day: "MONDAY-WEDNESDAY",
           start_time: "2018-01-01T11:40:00Z",
-          end_time: "2018-01-01T12:10:00Z",
+          end_time: "2018-01-01T12:10:00Z"
         },
         {
           day: "MONDAY-WEDNESDAY",
           start_time: "2018-01-01T03:00:00Z",
-          end_time: "2018-01-01T11:30:00Z",
+          end_time: "2018-01-01T11:30:00Z"
         },
         {
           day: "SUNDAY-MONDAY",
           start_time: "2018-01-01T08:30:00Z",
-          end_time: "2018-01-01T09:30:00Z",
-        },
+          end_time: "2018-01-01T09:30:00Z"
+        }
       ],
       { validate: true }
     )
@@ -81,15 +81,15 @@ seeder.doIt = async (db) => {
           password: userPassword,
           role: "ADMIN",
           secret_code: "es4d63qted9qasg76d8tq862138rfe86dqf",
-          is_active: true,
+          is_active: true
         },
         {
           email: "bb@bb.bb",
           password: userPassword,
           role: "TEACHER",
           secret_code: "Q7Wjfg5rrfufuiyghghjthgU",
-          is_active: true,
-        },
+          is_active: true
+        }
       ],
       { validate: true }
     )
@@ -105,76 +105,76 @@ seeder.doIt = async (db) => {
       [
         {
           name: "SPRING",
-          year: "2017",
+          year: "2017"
         },
         {
           name: "SUMMER",
-          year: "2017",
+          year: "2017"
         },
         {
           name: "FALL",
-          year: "2017",
+          year: "2017"
         },
         {
           name: "SPRING",
-          year: "2018",
+          year: "2018"
         },
         {
           name: "SUMMER",
-          year: "2018",
+          year: "2018"
         },
         {
           name: "FALL",
-          year: "2018",
+          year: "2018"
         },
         {
           name: "SPRING",
-          year: "2019",
+          year: "2019"
         },
         {
           name: "SUMMER",
-          year: "2019",
+          year: "2019"
         },
         {
           name: "FALL",
-          year: "2019",
+          year: "2019"
         },
         {
           name: "SPRING",
-          year: "2020",
+          year: "2020"
         },
         {
           name: "SUMMER",
-          year: "2020",
+          year: "2020"
         },
         {
           name: "FALL",
-          year: "2020",
+          year: "2020"
         },
         {
           name: "SPRING",
-          year: "2021",
+          year: "2021"
         },
         {
           name: "SUMMER",
-          year: "2021",
+          year: "2021"
         },
         {
           name: "FALL",
-          year: "2021",
+          year: "2021"
         },
         {
           name: "SPRING",
-          year: "2022",
+          year: "2022"
         },
         {
           name: "SUMMER",
-          year: "2022",
+          year: "2022"
         },
         {
           name: "FALL",
-          year: "2022",
-        },
+          year: "2022"
+        }
       ],
       { validate: true }
     )
@@ -193,7 +193,7 @@ seeder.doIt = async (db) => {
         credit: 3,
         serial: 1,
         departmentDepartmentId: 1,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Marketing Research",
@@ -201,7 +201,7 @@ seeder.doIt = async (db) => {
         credit: 3,
         serial: 2,
         departmentDepartmentId: 1,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Salesmanship and Sales Management",
@@ -209,7 +209,7 @@ seeder.doIt = async (db) => {
         credit: 3,
         serial: 3,
         departmentDepartmentId: 1,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Fundamentals of Computers and Applications",
@@ -217,7 +217,7 @@ seeder.doIt = async (db) => {
         credit: 3,
         serial: 1,
         departmentDepartmentId: 4,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Programming C",
@@ -225,7 +225,7 @@ seeder.doIt = async (db) => {
         credit: 4,
         serial: 2,
         departmentDepartmentId: 4,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Fundamentals of Electronics and Digital Systems",
@@ -233,7 +233,7 @@ seeder.doIt = async (db) => {
         credit: 4,
         serial: 3,
         departmentDepartmentId: 4,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Computer Architecture",
@@ -241,7 +241,7 @@ seeder.doIt = async (db) => {
         credit: 4,
         serial: 1,
         departmentDepartmentId: 4,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Operating Systems",
@@ -249,7 +249,7 @@ seeder.doIt = async (db) => {
         credit: 4,
         serial: 2,
         departmentDepartmentId: 4,
-        is_offered: true,
+        is_offered: true
       },
       {
         name: "Physics",
@@ -257,8 +257,8 @@ seeder.doIt = async (db) => {
         credit: 3,
         serial: 3,
         departmentDepartmentId: 3,
-        is_offered: true,
-      },
+        is_offered: true
+      }
     ])
     .then(() => {
       console.log(`Data Added to Courses`);
@@ -279,7 +279,7 @@ seeder.doIt = async (db) => {
             password: userPassword,
             role: "STUDENT",
             secret_code: "srytadfjafsdk6446464a65a47dsa",
-            is_active: true,
+            is_active: true
           },
           departmentDepartmentId: 3,
           guardian: {
@@ -290,13 +290,13 @@ seeder.doIt = async (db) => {
               password: userPassword,
               role: "GUARDIAN",
               secret_code: "srytadfja64354a65a47dsa",
-              is_active: true,
-            },
+              is_active: true
+            }
           },
           semester: {
             name: "SPRING",
-            year: "2021",
-          },
+            year: "2021"
+          }
         },
         {
           name: "Asraf Mohiuddin",
@@ -307,7 +307,7 @@ seeder.doIt = async (db) => {
             password: userPassword,
             role: "STUDENT",
             secret_code: "srytadfjafsdk6446464a65a47dsa",
-            is_active: true,
+            is_active: true
           },
           departmentDepartmentId: 3,
           guardian: {
@@ -318,14 +318,14 @@ seeder.doIt = async (db) => {
               password: userPassword,
               role: "GUARDIAN",
               secret_code: "srytaews3ddad4a65a47dsa",
-              is_active: true,
-            },
+              is_active: true
+            }
           },
           semester: {
             name: "SPRING",
-            year: "2020",
-          },
-        },
+            year: "2020"
+          }
+        }
       ],
       {
         validate: true,
@@ -334,11 +334,11 @@ seeder.doIt = async (db) => {
           db.department,
           {
             model: db.guardian,
-            include: [db.user],
+            include: [db.user]
           },
           db.semester,
-          db.result,
-        ],
+          db.result
+        ]
       }
     )
     .then(() => {
@@ -355,8 +355,8 @@ seeder.doIt = async (db) => {
         designation: "lecturer",
         phone_number: 0987654321,
         departmentDepartmentId: 4,
-        userUserId: 2,
-      },
+        userUserId: 2
+      }
     ])
     .then(() => {
       console.log(`teacher Added`);
@@ -372,15 +372,15 @@ seeder.doIt = async (db) => {
         notify_parent: true,
         date: "2022-06-25",
         studentStudentId: 1,
-        teacherTeacherId: 1,
+        teacherTeacherId: 1
       },
       {
         content: "late in class",
         notify_parent: true,
         date: "2022-06-23",
         studentStudentId: 1,
-        teacherTeacherId: 1,
-      },
+        teacherTeacherId: 1
+      }
     ])
     .then(() => {
       console.log(`Data Added to complain`);
@@ -394,18 +394,18 @@ seeder.doIt = async (db) => {
       {
         grade: 3.75,
         studentStudentId: 1,
-        courseCourseId: 1,
+        courseCourseId: 1
       },
       {
         grade: 3.5,
         studentStudentId: 1,
-        courseCourseId: 2,
+        courseCourseId: 2
       },
       {
         grade: 2.75,
         studentStudentId: 1,
-        courseCourseId: 3,
-      },
+        courseCourseId: 3
+      }
     ])
     .then(() => {
       console.log(`Student Added to Result`);
@@ -421,22 +421,22 @@ seeder.doIt = async (db) => {
         active: true,
         timeslotTimeslotId: 1,
         teacherTeacherId: 1,
-        courseCourseId: 1,
+        courseCourseId: 1
       },
       {
         section_name: "B",
         active: true,
         timeslotTimeslotId: 2,
         teacherTeacherId: 1,
-        courseCourseId: 1,
+        courseCourseId: 1
       },
       {
         section_name: "C",
         active: true,
         timeslotTimeslotId: 3,
         teacherTeacherId: 1,
-        courseCourseId: 2,
-      },
+        courseCourseId: 2
+      }
     ])
     .then(() => {
       console.log(`Student Added to Result`);
@@ -449,28 +449,53 @@ seeder.doIt = async (db) => {
     .bulkCreate([
       {
         sectionSectionId: 1,
-        studentStudentId: 1,
+        studentStudentId: 1
       },
       {
         sectionSectionId: 2,
-        studentStudentId: 1,
+        studentStudentId: 1
       },
       {
         sectionSectionId: 3,
-        studentStudentId: 1,
+        studentStudentId: 1
       },
       {
         sectionSectionId: 1,
-        studentStudentId: 2,
+        studentStudentId: 2
       },
       {
         sectionSectionId: 2,
-        studentStudentId: 2,
+        studentStudentId: 2
       },
       {
         sectionSectionId: 3,
-        studentStudentId: 2,
+        studentStudentId: 2
+      }
+    ])
+    .then(() => {
+      console.log(`Data Added to CourseTaken`);
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+
+  await db.message
+    .bulkCreate([
+      {
+        content: "hello hai by by",
+        sectionSectionId: 1,
+        userUserId: 2
       },
+      {
+        content: "hello mia vai",
+        sectionSectionId: 1,
+        userUserId: 3
+      },
+      {
+        content: "good morning",
+        sectionSectionId: 1,
+        userUserId: 2
+      }
     ])
     .then(() => {
       console.log(`Data Added to CourseTaken`);
@@ -483,19 +508,19 @@ seeder.doIt = async (db) => {
     .bulkCreate([
       {
         title: "University closed on 17 September",
-        userUserId: 1,
+        userUserId: 1
       },
       {
         title: "Scholarships for Summer Semester 2022",
         content:
           "Applications are invited from meritorious but needy students of 2nd semester and onward for award of the following Scholarships for Summer semester 2022. Students enjoying 100% scholarship from the university do not qualify for the same. Eligible student who want to apply for need base scholarship visit this link and apply for scholarship. ",
-        userUserId: 1,
+        userUserId: 1
       },
       {
         title: "Your classmate needs help",
         content:
-          "Applications are invited from meritorious but needy students of 2nd semester and onward for award of the following Scholarships for Summer semester 2022. Students enjoying 100% scholarship from the university do not qualify for the same. Eligible student who want to apply for need base scholarship visit this link and apply for scholarship. ",
-      },
+          "Applications are invited from meritorious but needy students of 2nd semester and onward for award of the following Scholarships for Summer semester 2022. Students enjoying 100% scholarship from the university do not qualify for the same. Eligible student who want to apply for need base scholarship visit this link and apply for scholarship. "
+      }
     ])
     .then(() => {
       console.log(`Data Added to Notice`);

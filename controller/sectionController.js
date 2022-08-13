@@ -7,8 +7,27 @@ sectionController.getSection = async (req, res) => {
   await db.section
     .findAll({
       where: {
-        timeslotTimeslotId: "2"
-      }
+        section_id: req.params.id
+      },
+      include: [
+        {
+          model: db.course
+        },
+        {
+          model: db.notice
+        },
+        {
+          model: db.classEvent
+        },
+        {
+          model: db.courseTaken,
+          include: [
+            {
+              model: db.student
+            }
+          ]
+        }
+      ]
     })
     .then((data) => {
       if (data === null) {
