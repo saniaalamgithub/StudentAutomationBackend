@@ -7,6 +7,7 @@ const ClassEvent = function (sequelize, DataTypes) {
       primaryKey: true
     },
     date: { type: DataTypes.DATE, allowNull: false },
+    duration: { type: DataTypes.INTEGER, allowNull: false },
     role: {
       type: DataTypes.ENUM(
         "QUIZ",

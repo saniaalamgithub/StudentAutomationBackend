@@ -303,7 +303,7 @@ seeder.doIt = async (db) => {
           university_student_id: 15240,
           phone_number: "8801911409112",
           user: {
-            email: "a@a.a",
+            email: "dd@dd.dd",
             password: userPassword,
             role: "STUDENT",
             secret_code: "srytadfjafsdk6446464a65a47dsa",

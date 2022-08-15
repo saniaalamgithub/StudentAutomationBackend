@@ -69,9 +69,9 @@ app.get("/load", seederController.doIt);
 app.post("/login", userController.tryLogin);
 app.post("/user/create", auth, userController.createUser);
 app.post("/student/create", auth, studentController.createStudent);
+app.post("/student", auth, studentController.getOneStudent);
 app.post("/department/create", auth, departmentController.createDepartment);
 app.post("/course/create", auth, courseController.createCourse);
-app.post("/student/create", auth, studentController.createStudent);
 app.post("/section/create", auth, sectionController.createSection);
 app.post("/departments", auth, departmentController.getDepartments);
 
@@ -84,6 +84,7 @@ app.post("/semesters", semesterController.getSemesters);
 app.post("/sections", sectionController.getSections);
 app.post("/section/:id", sectionController.getSection);
 app.post("/teacher", auth, teacherController.getOneTeacher);
+
 app.post(
   "/teacher/create",
   auth,

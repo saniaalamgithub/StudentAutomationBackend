@@ -11,6 +11,7 @@ eventController.createEvent = async (req, res) => {
       .create({
         date: req.body.date,
         role: req.body.role,
+        duration: req.body.duration,
         sectionSectionId: req.body.sectionId
       })
       .then((data) => {
