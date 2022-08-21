@@ -159,6 +159,14 @@ teacherController.getOneTeacher = async (req, res) => {
                   include: [
                     {
                       model: db.student
+                    },
+                    {
+                      model: db.section,
+                      include: [
+                        {
+                          model: db.course
+                        }
+                      ]
                     }
                   ]
                 }
@@ -247,7 +255,7 @@ teacherController.takeAttendence = async (req, res) => {
 teacherController.getAttendence = async (req, res) => {
   await db.attendence
     .findAll({
-      where: { sectionSectionId: req.params.secId },
+      where: { sectionSectionId: req.params.secId, date: req.body.date },
       include: [
         {
           model: db.student

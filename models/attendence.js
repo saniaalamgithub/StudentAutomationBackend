@@ -7,7 +7,7 @@ const Attendence = function (sequelize, DataTypes) {
       primaryKey: true
     },
     is_present: { type: DataTypes.BOOLEAN, allowNull: false },
-    date: { type: DataTypes.DATE, allowNull: false }
+    date: { type: DataTypes.STRING, allowNull: false }
   });
 };
 

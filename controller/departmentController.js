@@ -6,7 +6,7 @@ departmentController.createDepartment = async (req, res) => {
   let deptShortCode = req.body.shortCode;
   await db.department
     .create({
-      name: deptName.trim().toLowerCase(),
+      name: deptName.trim(),
       short_code: deptShortCode.trim().toUpperCase()
     })
     .then((data) => {

@@ -3,6 +3,7 @@ const db = require("../utils/db");
 var validator = require("validator");
 var enumData = require("../CONSTANTS/enums");
 const bcrypt = require("bcrypt");
+const config = process.env;
 
 guardianController.getWardInfo = async (req, res) => {
   if (req.verifiedUser.role === enumData.user[3]) {
@@ -23,6 +24,9 @@ guardianController.getWardInfo = async (req, res) => {
                         include: [
                           {
                             model: db.course
+                          },
+                          {
+                            model: db.attendence
                           }
                         ]
                       }
@@ -125,6 +129,70 @@ guardianController.getGuardians = async (req, res) => {
       console.log(error);
       res.status(500).send(error);
     });
+};
+
+guardianController.createGuardian = async (req, res, next) => {
+  guardianUserId = 0;
+  userPassword = await bcrypt.hashSync(
+    req.body.studentId,
+    bcrypt.genSaltSync(Number(config.SALT_ROUND))
+  );
+  userSecret = await bcrypt.hashSync(
+    req.body.guardianEmail,
+    bcrypt.genSaltSync(Number(config.SALT_ROUND))
+  );
+  await db.user
+    .findOne({
+      where: { email: req.body.guardianEmail.trim().toLowerCase() }
+    }).then((resp) => {
+      console.log(resp)
+      guardianUserId = resp.user_id;
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+
+  if(guardianUserId===0){
+    await db.user
+    .create({
+      email: req.body.guardianEmail.trim().toLowerCase(),
+      password: userPassword,
+      role: enumData.user[3],
+      secret_code: userSecret,
+      is_active: true
+    })
+    .then((resp) => {
+      guardianUserId = resp.user_id;
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+
+    await db.guardian
+    .create({
+      name: req.body.guardianName,
+      phone_number: req.body.guardianPhoneNumber,
+      userUserId: guardianUserId
+    })
+    .then((resp) => {
+      req.guardianId = resp.guardian_id;
+      return next();
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+  } else {
+    await db.guardian
+    .findOne({
+      where: { userUserId: guardianUserId}
+    }).then((resp) => {
+      req.guardianId = resp.guardian_id;
+      return next();
+    })
+    .catch((error) => {
+      return console.error(error);
+    });
+  }
 };
 
 secondaryTask = async (data, res) => {

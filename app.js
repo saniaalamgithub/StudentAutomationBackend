@@ -39,7 +39,7 @@ const upload = multer({
   },
   fileFilter(req, file, cb) {
     console.log("filtering");
-    if (!file.originalname.match(/\.(png|jpg|pdf|docx)$/)) {
+    if (!file.originalname?.toLowerCase().match(/\.(png|jpg|pdf|docx)$/)) {
       // upload only png and jpg format
       return cb(new Error("Please upload only one png|jpg|pdf|docx file"));
     }
@@ -68,7 +68,13 @@ const messageController = require("./controller/messageController");
 app.get("/load", seederController.doIt);
 app.post("/login", userController.tryLogin);
 app.post("/user/create", auth, userController.createUser);
-app.post("/student/create", auth, studentController.createStudent);
+app.post(
+  "/student/create",
+  auth,
+  upload.single("studentPhoto"),
+  guardianController.createGuardian,
+  studentController.createStudent
+);
 app.post("/student", auth, studentController.getOneStudent);
 app.post("/department/create", auth, departmentController.createDepartment);
 app.post("/course/create", auth, courseController.createCourse);
@@ -133,6 +139,21 @@ app.post("/section/:id/event", auth, eventController.getEvent);
 app.delete("/event/:id", eventController.deleteEvent);
 
 app.post("/section/:id/message", auth, messageController.getMessages);
+app.post(
+  "/message/create",
+  auth,
+  upload.single("formFile"),
+  messageController.createMessage
+);
 
 app.post("/courses/:id/result", auth, resultController.getResultByCourse);
+
+app.post(
+  "/result/create",
+  auth,
+  resultController.createResult,
+  resultController.removeSection
+);
+
+app.post("/end-semester", auth, adminController.endSemester);
 module.exports = app;

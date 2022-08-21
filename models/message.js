@@ -7,7 +7,7 @@ const Message = function (sequelize, DataTypes) {
       primaryKey: true
     },
     content: { type: DataTypes.STRING, allowNull: false },
-    filePath: { type: DataTypes.STRING, allowNull: false }
+    filePath: { type: DataTypes.STRING, allowNull: true }
   });
 };
 module.exports = Message;

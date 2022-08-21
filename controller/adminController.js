@@ -55,4 +55,30 @@ adminController.updateAdmin = async (req, res) => {
   }
 };
 
+adminController.endSemester = async (req, res) => {
+  await db.attendence.truncate({ cascade: true });
+
+  await db.notice.truncate({ cascade: true });
+
+  await db.message.truncate({ cascade: true });
+
+  await db.classEvent.truncate({ cascade: true });
+
+  await db.courseTaken.truncate({ cascade: true });
+
+  await db.section.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", null);
+  await db.section
+    .truncate({ cascade: true })
+    .then((data) => {
+      if (data !== null) {
+        res.status(200).json({ suceess: "true" });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+  await db.section.sequelize.query("SET FOREIGN_KEY_CHECKS = 1", null);
+};
+
 module.exports = adminController;

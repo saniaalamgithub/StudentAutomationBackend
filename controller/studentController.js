@@ -4,8 +4,13 @@ var validator = require("validator");
 var enumData = require("../CONSTANTS/enums");
 const config = process.env;
 const bcrypt = require("bcrypt");
-
 studentController.createStudent = async (req, res) => {
+  if (!req.body.email) {
+    res.status(400).json({ status: "Bad Request Email" }); //
+    return;
+  }
+
+  //error if email already exist
   await db.user
     .findOne({
       where: { email: req.body.email.trim().toLowerCase() }
@@ -25,9 +30,10 @@ studentController.createStudent = async (req, res) => {
 
   if (!validator.isEmail(req.body.email.trim())) {
     res.status(400).json({ status: "Bad Request" }); //
+    return;
   } else {
     let userPassword = await bcrypt.hashSync(
-      req.body.password.trim(),
+      req.body.pass.trim(),
       bcrypt.genSaltSync(Number(config.SALT_ROUND))
     );
     let secretkey = await bcrypt.hashSync(
@@ -38,7 +44,9 @@ studentController.createStudent = async (req, res) => {
       .update(
         {
           email: req.body.email.trim().toLowerCase(),
-          password: req.body.password
+          password: userPassword,
+          secret_key: secretkey,
+          is_active: true
         },
         {
           where: {
@@ -47,27 +55,25 @@ studentController.createStudent = async (req, res) => {
         }
       )
       .then((data) => {
-        res.status(200).json(data);
+        console.log("user updated ", data);
+
+        // res.status(200).json(data);
       })
       .catch((error) => {
         console.log(error);
         res.status(500).send(error);
       });
+
     await db.student
       .create({
-        name: req.body.student.name,
-        university_student_id: req.body.student.id,
-        phone_number: req.body.student.phoneNumber,
-        user: {
-          email: req.body.email,
-          password: userPassword,
-          role: "STUDENT",
-          secret_code: secretkey,
-          is_active: true
-        },
-        userUserId: 2,
-        departmentDepartmentId: 3,
-        semesterSemesterId: 2
+        name: req.body.name,
+        university_student_id: req.body.studentId,
+        filePath: req.file?.filename,
+        phone_number: req.body.phoneNumber,
+        userUserId: req.verifiedUser.id,
+        guardianGuardianId: req.guardianId,
+        departmentDepartmentId: Number(req.body.department),
+        semesterSemesterId: Number(req.body.joinedAt)
       })
       .then((data) => {
         res.status(200).json(data);
@@ -166,6 +172,12 @@ studentController.getOneStudent = async (req, res) => {
                     },
                     {
                       model: db.classEvent
+                    },
+                    {
+                      model: db.timeslot
+                    },
+                    {
+                      model: db.attendence
                     }
                   ]
                 }

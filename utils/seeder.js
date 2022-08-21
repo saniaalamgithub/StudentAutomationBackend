@@ -42,22 +42,22 @@ seeder.doIt = async (db) => {
         {
           day: "SUNDAY",
           start_time: "2018-01-01T10:00:00.000Z",
-          end_time: "2018-01-01T11:30:00"
+          end_time: "2018-01-01T13:00:00"
         },
         {
           day: "MONDAY-WEDNESDAY",
-          start_time: "2018-01-01T11:40:00Z",
-          end_time: "2018-01-01T12:10:00Z"
+          start_time: "2018-01-01T11:30:00Z",
+          end_time: "2018-01-01T13:00:00Z"
         },
         {
           day: "MONDAY-WEDNESDAY",
-          start_time: "2018-01-01T03:00:00Z",
-          end_time: "2018-01-01T11:30:00Z"
+          start_time: "2018-01-01T08:00:00Z",
+          end_time: "2018-01-01T09:30:00Z"
         },
         {
           day: "SUNDAY-MONDAY",
-          start_time: "2018-01-01T08:30:00Z",
-          end_time: "2018-01-01T09:30:00Z"
+          start_time: "2018-01-01T15:30:00Z",
+          end_time: "2018-01-01T17:00:00Z"
         }
       ],
       { validate: true }
@@ -69,7 +69,7 @@ seeder.doIt = async (db) => {
       return console.error(error);
     });
 
-  userPassword = await bcrypt.hashSync(
+  userPassword = bcrypt.hashSync(
     "123456",
     bcrypt.genSaltSync(Number(config.SALT_ROUND))
   );
@@ -303,7 +303,7 @@ seeder.doIt = async (db) => {
           university_student_id: 15240,
           phone_number: "8801911409112",
           user: {
-            email: "dd@dd.dd",
+            email: "cc@cc.cc",
             password: userPassword,
             role: "STUDENT",
             secret_code: "srytadfjafsdk6446464a65a47dsa",
