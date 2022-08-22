@@ -48,9 +48,13 @@ resultController.getResults = async (req, res) => {
     });
 };
 
-resultController.getResultByStudent = async (req, res) => {
+resultController.getResultByCourse = async (req, res) => {
   await db.result
-    .findAll({})
+    .findAll({
+      where: {
+        courseCourseId: req.params.id
+      }
+    })
     .then((data) => {
       if (data === null) {
         res.status(404).json({
@@ -68,11 +72,11 @@ resultController.getResultByStudent = async (req, res) => {
     });
 };
 
-resultController.getResultByCourse = async (req, res) => {
+resultController.getResultByStudent = async (req, res) => {
   await db.result
     .findAll({
       where: {
-        courseCourseId: req.params.id
+        studentStudentId: req.studentId
       }
     })
     .then((data) => {

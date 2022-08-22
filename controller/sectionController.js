@@ -89,5 +89,26 @@ sectionController.createSection = async (req, res) => {
       res.status(500).send(error);
     });
 };
+sectionController.addSectionsToStudent = async (req, res) => {
+  let insertable = [];
+  req.body.sIds.forEach((element) => {
+    let temp = {
+      sectionSectionId: Number(element),
+      studentStudentId: req.studentId
+    };
+    insertable.push(temp);
+  });
+  console.log(insertable);
+  await db.courseTaken
+    .bulkCreate(insertable)
+    .then((data) => {
+      console.log(data);
+      res.status(200).json(data);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
 
 module.exports = sectionController;

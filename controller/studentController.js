@@ -221,4 +221,32 @@ studentController.getOneStudent = async (req, res) => {
     });
 };
 
+studentController.getStudentFromUserId = async (req, res, next) => {
+  await db.user
+    .findOne({
+      where: {
+        email: req.verifiedUser.email
+      },
+      include: [
+        {
+          model: db.student
+        }
+      ]
+    })
+    .then((data) => {
+      if (data === null) {
+        res.status(404).json({
+          status: "Not Found"
+        });
+      } else {
+        req.studentId = data.student.student_id;
+        return next();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+};
+
 module.exports = studentController;

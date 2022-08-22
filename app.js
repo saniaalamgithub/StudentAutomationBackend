@@ -64,6 +64,7 @@ const downloadContoller = require("./controller/downloadController");
 const semesterController = require("./controller/semesterController");
 const eventController = require("./controller/eventController");
 const messageController = require("./controller/messageController");
+const fileController = require("./controller/fileController");
 
 app.get("/load", seederController.doIt);
 app.post("/login", userController.tryLogin);
@@ -147,6 +148,12 @@ app.post(
 );
 
 app.post("/courses/:id/result", auth, resultController.getResultByCourse);
+app.post(
+  "/results",
+  auth,
+  studentController.getStudentFromUserId,
+  resultController.getResultByStudent
+);
 
 app.post(
   "/result/create",
@@ -156,4 +163,20 @@ app.post(
 );
 
 app.post("/end-semester", auth, adminController.endSemester);
+
+app.post(
+  "/updateConfig",
+  auth,
+  fileController.updateConfig,
+  fileController.getConfig
+);
+
+app.get("/getConfig", fileController.getConfig);
+
+app.post(
+  "/student/course/new",
+  auth,
+  studentController.getStudentFromUserId,
+  sectionController.addSectionsToStudent
+);
 module.exports = app;
