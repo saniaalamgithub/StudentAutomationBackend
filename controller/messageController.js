@@ -10,7 +10,7 @@ messageController.createMessage = async (req, res) => {
   let filePath = req.file;
   await db.message
     .create({
-      content: content.trim(),
+      content: content,
       filePath: filePath?.filename,
       sectionSectionId: req.body.sectionSectionId,
       userUserId: req.verifiedUser.id

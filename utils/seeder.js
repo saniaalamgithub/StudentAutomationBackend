@@ -89,6 +89,20 @@ seeder.doIt = async (db) => {
           role: "TEACHER",
           secret_code: "Q7Wjfg5rrfufuiyghghjthgU",
           is_active: true
+        },
+        {
+          email: "bbb@bbb.bbb",
+          password: userPassword,
+          role: "TEACHER",
+          secret_code: "Q7Wjfg5rrfufuiyghghjthgU",
+          is_active: true
+        },
+        {
+          email: "bbbb@bbbb.bbbb",
+          password: userPassword,
+          role: "TEACHER",
+          secret_code: "Q7Wjfg5rrfufuiyghghjthgU",
+          is_active: true
         }
       ],
       { validate: true }
@@ -351,11 +365,23 @@ seeder.doIt = async (db) => {
   await db.teacher
     .bulkCreate([
       {
-        name: "azad rahman",
+        name: "Azad rahman",
         designation: "lecturer",
         phone_number: 0987654321,
         departmentDepartmentId: 4,
         userUserId: 2
+      },{
+        name: "Krishna Das",
+        designation: "Assistant Professor",
+        phone_number: 0987654321,
+        departmentDepartmentId: 1,
+        userUserId: 3
+      },{
+        name: "Nusrath Tabassum",
+        designation: "lecturer",
+        phone_number: 0987654321,
+        departmentDepartmentId: 4,
+        userUserId: 4
       }
     ])
     .then(() => {
@@ -431,10 +457,31 @@ seeder.doIt = async (db) => {
         courseCourseId: 1
       },
       {
-        section_name: "C",
+        section_name: "A",
         active: true,
         timeslotTimeslotId: 3,
         teacherTeacherId: 1,
+        courseCourseId: 3
+      },
+      {
+        section_name: "B",
+        active: true,
+        timeslotTimeslotId: 1,
+        teacherTeacherId: 2,
+        courseCourseId: 3
+      },
+      {
+        section_name: "A",
+        active: true,
+        timeslotTimeslotId: 2,
+        teacherTeacherId: 2,
+        courseCourseId: 2
+      },
+      {
+        section_name: "B",
+        active: true,
+        timeslotTimeslotId: 3,
+        teacherTeacherId: 3,
         courseCourseId: 2
       }
     ])
@@ -452,7 +499,7 @@ seeder.doIt = async (db) => {
         studentStudentId: 1
       },
       {
-        sectionSectionId: 2,
+        sectionSectionId: 5,
         studentStudentId: 1
       },
       {
@@ -464,11 +511,11 @@ seeder.doIt = async (db) => {
         studentStudentId: 2
       },
       {
-        sectionSectionId: 2,
+        sectionSectionId: 4,
         studentStudentId: 2
       },
       {
-        sectionSectionId: 3,
+        sectionSectionId: 5,
         studentStudentId: 2
       }
     ])
@@ -482,14 +529,14 @@ seeder.doIt = async (db) => {
   await db.message
     .bulkCreate([
       {
-        content: "hello hai by by",
+        content: "hello Students",
         sectionSectionId: 1,
         userUserId: 2
       },
       {
-        content: "hello mia vai",
+        content: "hello Sir",
         sectionSectionId: 1,
-        userUserId: 3
+        userUserId: 5
       },
       {
         content: "good morning",
