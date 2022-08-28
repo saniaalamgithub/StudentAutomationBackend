@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("./sequelize");
 const seeder = require("./seeder");
+const seederBig = require("./seederBig");
 const db = {};
 
 db.sequelize = sequelize;
@@ -100,7 +101,8 @@ db.section.hasMany(db.attendence);
 
 db.sequelize.sync({ force: true, logging: false }).then(() => {
   console.log("Drop and re-sync db.");
-  let x = seeder.doIt(db);
+  //let x = seeder.doIt(db);
+  let x = seederBig.doIt(db);
   console.log("--------------------Started---------------", x);
 });
 

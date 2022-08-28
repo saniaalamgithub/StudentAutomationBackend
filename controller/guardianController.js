@@ -41,7 +41,17 @@ guardianController.getWardInfo = async (req, res) => {
                     ]
                   },
                   {
-                    model: db.complain
+                    model: db.complain,
+                    include: [
+                      {
+                        model: db.teacher,
+                        include: [
+                          {
+                            model: db.user
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     model: db.department
@@ -144,54 +154,56 @@ guardianController.createGuardian = async (req, res, next) => {
   await db.user
     .findOne({
       where: { email: req.body.guardianEmail.trim().toLowerCase() }
-    }).then((resp) => {
-      console.log(resp)
+    })
+    .then((resp) => {
+      console.log(resp);
       guardianUserId = resp.user_id;
     })
     .catch((error) => {
       return console.error(error);
     });
 
-  if(guardianUserId===0){
+  if (guardianUserId === 0) {
     await db.user
-    .create({
-      email: req.body.guardianEmail.trim().toLowerCase(),
-      password: userPassword,
-      role: enumData.user[3],
-      secret_code: userSecret,
-      is_active: true
-    })
-    .then((resp) => {
-      guardianUserId = resp.user_id;
-    })
-    .catch((error) => {
-      return console.error(error);
-    });
+      .create({
+        email: req.body.guardianEmail.trim().toLowerCase(),
+        password: userPassword,
+        role: enumData.user[3],
+        secret_code: userSecret,
+        is_active: true
+      })
+      .then((resp) => {
+        guardianUserId = resp.user_id;
+      })
+      .catch((error) => {
+        return console.error(error);
+      });
 
     await db.guardian
-    .create({
-      name: req.body.guardianName,
-      phone_number: req.body.guardianPhoneNumber,
-      userUserId: guardianUserId
-    })
-    .then((resp) => {
-      req.guardianId = resp.guardian_id;
-      return next();
-    })
-    .catch((error) => {
-      return console.error(error);
-    });
+      .create({
+        name: req.body.guardianName,
+        phone_number: req.body.guardianPhoneNumber,
+        userUserId: guardianUserId
+      })
+      .then((resp) => {
+        req.guardianId = resp.guardian_id;
+        return next();
+      })
+      .catch((error) => {
+        return console.error(error);
+      });
   } else {
     await db.guardian
-    .findOne({
-      where: { userUserId: guardianUserId}
-    }).then((resp) => {
-      req.guardianId = resp.guardian_id;
-      return next();
-    })
-    .catch((error) => {
-      return console.error(error);
-    });
+      .findOne({
+        where: { userUserId: guardianUserId }
+      })
+      .then((resp) => {
+        req.guardianId = resp.guardian_id;
+        return next();
+      })
+      .catch((error) => {
+        return console.error(error);
+      });
   }
 };
 

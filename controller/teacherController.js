@@ -234,7 +234,7 @@ teacherController.getTeachersCourseList = async (req, res) => {
 teacherController.takeAttendence = async (req, res) => {
   await db.attendence
     .bulkCreate(req.body.attendenceData, {
-      updateOnDuplicate: ["attendence_id", "is_present"]
+      updateOnDuplicate: ["attendence_id", "is_present"] // replace if same student attendence data present for same day
     })
     .then((data) => {
       if (data === null) {

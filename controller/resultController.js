@@ -4,7 +4,7 @@ var validator = require("validator");
 var enumData = require("../CONSTANTS/enums");
 const config = process.env;
 
-const getCGPA = (mark) => {
+const getGPA = (mark) => {
   if (mark > 100 || mark < 0) {
     return -1;
   } else if (mark >= 90) {
@@ -108,7 +108,7 @@ resultController.createResult = async (req, res, next) => {
       Number(element.studentResultAssignment) +
       Number(element.studentResultQuiz) +
       Number(element.studentResultAttendence);
-    temp.grade = getCGPA(totalMark);
+    temp.grade = getGPA(totalMark);
     temp.studentStudentId = element.studentStudentId;
     temp.courseCourseId = element.courseId;
     insertableData.push(temp);
@@ -132,7 +132,7 @@ resultController.createResult = async (req, res, next) => {
 };
 
 resultController.removeSection = async (req, res) => {
-  if (req.resultInsertion) {
+  if (req.resultInsertion) {//double checking that result is submitted
     await db.attendence.destroy({
       where: { sectionSectionId: req.body.data[0].sectionSectionId }
     });
@@ -148,7 +148,7 @@ resultController.removeSection = async (req, res) => {
     await db.courseTaken.destroy({
       where: { sectionSectionId: req.body.data[0].sectionSectionId }
     });
-    await db.section.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", null);
+    await db.section.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", null);//force delete even if foreign key constrait found
     await db.section
       .destroy({
         where: { section_id: req.body.data[0].sectionSectionId }
